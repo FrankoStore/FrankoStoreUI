@@ -6,5 +6,7 @@ export { ProductCard } from "./ProductCard/ProductCard";
 export { ProductCardList } from "./ProductCardList/ProductCardList";
 export { HeaderMenu } from "./HeaderMenu/HeaderMenu";
 export { LinkButton } from "./LinkButton/LinkButton";
+export { RegisterForm } from "./RegisterForm/RegisterForm";
+export { LoginForm } from "./LoginForm/LoginForm";
 
 export type { Product } from "./ProductCardList/ProductCardList";

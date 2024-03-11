@@ -1,14 +1,12 @@
-import { Container, HeaderMenu } from "..";
-import Link from "next/link";
-import React from "react";
+"use client";
 
-import {
-    BagIcon,
-    BurgerIcon,
-    LogoIcon,
-    SearchIcon,
-    UserIcon,
-} from "@/assets/icons";
+import { Container, HeaderMenu, LoginForm, RegisterForm } from "..";
+import Link from "next/link";
+import React, { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+
+import { BagIcon, LogoIcon, SearchIcon, UserIcon } from "@/assets/icons";
 
 const navigationLinks = [
     {
@@ -26,8 +24,31 @@ const navigationLinks = [
 ];
 
 export const Header = () => {
+    const [registerOpened, setRegisterOpened] = useState(false);
+    const [loginOpened, setLoginOpened] = useState(false);
+
     return (
         <Container>
+            <RegisterForm
+                onSubmit={() => {}}
+                onOpen={() => {}}
+                onClose={() => setRegisterOpened(false)}
+                onSecondaryButtonClick={() => {
+                    setRegisterOpened(false);
+                    setLoginOpened(true);
+                }}
+                isVisible={registerOpened}
+            />
+            <LoginForm
+                onSubmit={() => {}}
+                onOpen={() => {}}
+                onClose={() => setLoginOpened(false)}
+                onSecondryButtonClick={() => {
+                    setLoginOpened(false);
+                    setRegisterOpened(true);
+                }}
+                isVisible={loginOpened}
+            />
             <header className="header-grid h-[111px] items-center justify-between">
                 <div className="flex gap-9 items-center">
                     <HeaderMenu />
@@ -44,9 +65,19 @@ export const Header = () => {
                     })}
                 </nav>
                 <div className="flex items-center gap-8">
-                    <SearchIcon />
-                    <UserIcon />
-                    <BagIcon />
+                    <Button variant="icon" size="primary">
+                        <SearchIcon />
+                    </Button>
+                    <Button
+                        variant="icon"
+                        size="primary"
+                        onClick={() => setLoginOpened(true)}
+                    >
+                        <UserIcon />
+                    </Button>
+                    <Button variant="icon" size="primary">
+                        <BagIcon />
+                    </Button>
                 </div>
             </header>
         </Container>

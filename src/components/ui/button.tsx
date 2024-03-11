@@ -14,12 +14,21 @@ const buttonVariants = cva(
                 outline:
                     "bg-white text-darkblue border-darkblue hover:bg-white/90",
                 link: "bg-transparent border-none color-black uppercase font-semibold",
+                lightLink: "bg-transparent border-none color-black",
+                icon: "border-none bg-transparent",
             },
             size: {
                 primary: "w-[307px] h-[53px] text-[18px]",
                 link: "text-[17px]",
             },
         },
+        compoundVariants: [
+            {
+                variant: "icon",
+                size: "primary",
+                class: "p-1 w-auto",
+            },
+        ],
         defaultVariants: {
             variant: "primary",
             size: "primary",

@@ -39,7 +39,7 @@ export const Footer: React.FC<FooterPropsType> = (props) => {
             <Container className="flex justify-between">
                 <div>
                     <LogoIcon fill="#fff" />
-                    <Image src={LNULogo} alt="LNU image" />
+                    <Image className="mt-5" src={LNULogo} alt="LNU image" />
                 </div>
                 <div className="flex gap-[165px]">
                     <div className="flex flex-col gap-5">
