@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import prodImg from "@public/test_prod.png";
+
 interface ProductCardPropsType {
     id?: string;
     image?: string;
@@ -23,8 +25,8 @@ export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
 
     return (
         <div className={overrideCardContainerStyle}>
-            <div className="w-full aspect-[307/377] bg-[#F0EFEF] cursor-pointer">
-                {/* <Image /> */}
+            <div className="w-full aspect-[307/377] cursor-pointer">
+                <Image src={prodImg} alt="img" className="w-full" />
             </div>
             <Link
                 href={`/product/${id}`}

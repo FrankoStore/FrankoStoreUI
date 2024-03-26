@@ -4,21 +4,23 @@ import { Container, HeaderMenu, LoginForm, RegisterForm } from "..";
 import Link from "next/link";
 import React, { useState } from "react";
 
+import { URLS } from "@/lib/constants";
+
 import { Button } from "@/components/ui/button";
 
 import { BagIcon, LogoIcon, SearchIcon, UserIcon } from "@/assets/icons";
 
 const navigationLinks = [
     {
-        path: "/about",
+        path: URLS.ABOUT,
         title: "Про нас",
     },
     {
-        path: "/contacts",
+        path: URLS.ABOUT,
         title: "Контакти",
     },
     {
-        path: "/university",
+        path: URLS.UNIVERCITY,
         title: "Університет",
     },
 ];
@@ -30,7 +32,6 @@ export const Header = () => {
     return (
         <Container>
             <RegisterForm
-                onSubmit={() => {}}
                 onOpen={() => {}}
                 onClose={() => setRegisterOpened(false)}
                 onSecondaryButtonClick={() => {
@@ -75,9 +76,11 @@ export const Header = () => {
                     >
                         <UserIcon />
                     </Button>
-                    <Button variant="icon" size="primary">
-                        <BagIcon />
-                    </Button>
+                    <Link href={URLS.CART}>
+                        <Button variant="icon" size="primary">
+                            <BagIcon />
+                        </Button>
+                    </Link>
                 </div>
             </header>
         </Container>

@@ -2,6 +2,7 @@ import { Container } from "@shared";
 import Image from "next/image";
 import Link from "next/link";
 
+import { URLS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import { FacebookIcon, InstagramIcon, LogoIcon } from "@/assets/icons";
@@ -13,11 +14,11 @@ const navigationItems = [
         title: "про нас",
     },
     {
-        path: "/cabinet",
+        path: "/user-profile",
         title: "особистий кабінет",
     },
     {
-        path: "/university",
+        path: URLS.UNIVERCITY,
         title: "університет",
     },
 ];

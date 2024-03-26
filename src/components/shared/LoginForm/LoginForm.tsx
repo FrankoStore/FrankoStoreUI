@@ -1,5 +1,6 @@
 "use client";
 
+import { useLoginUser } from "@/services/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -24,6 +25,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
 interface LoginFormPropsType {
     onSubmit: () => void;
@@ -34,7 +36,7 @@ interface LoginFormPropsType {
 }
 
 const formSchema = z.object({
-    email: z.string().email({ message: "Некоректна пошта" }),
+    username: z.string().min(1, { message: "Поле є обов'язковим" }),
     password: z
         .string()
         .min(8, { message: "Пароль має містити хоча б 8 символів" }),
@@ -47,11 +49,13 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         },
         mode: "onChange",
     });
+
+    const { loginUser } = useLoginUser();
 
     const handleSecondaryClick = () => {
         onClose?.();
@@ -63,18 +67,31 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
     };
 
     useEffect(() => {
-        console.log(form.formState.errors);
-    });
+        if (!form.formState.isValid) {
+            const errors = Object.values(form?.formState?.errors)?.map(
+                (item) => item.message,
+            );
+            const firstError = errors[0];
+            toast({ description: firstError });
+        }
+    }, [form.formState.submitCount, form.formState.isValid]);
 
-    // const handleSubmit = () => {
-    //     onSubmit();
-    //     handleClose();
-    // };
-
-    const handleSubmit: SubmitHandler<z.infer<typeof formSchema>> = (
+    const handleSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
         values: z.infer<typeof formSchema>,
     ) => {
-        console.log(values);
+        const loginData = {
+            login: values.username,
+            password: values.password,
+        };
+
+        try {
+            await loginUser(loginData);
+            handleClose();
+        } catch (e) {
+            toast({ title: "Помилка автентифікації" });
+        } finally {
+            form.reset();
+        }
     };
 
     return (
@@ -100,12 +117,12 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
                             <div className="">
                                 <FormField
                                     control={form.control}
-                                    name="email"
+                                    name="username"
                                     render={({ field }) => (
                                         <FormItem className="relative">
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Електронна пошта"
+                                                    placeholder="Ім'я користувача"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -122,7 +139,7 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
                                         <FormItem className="relative">
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Придумайте пароль"
+                                                    placeholder="Пароль"
                                                     {...field}
                                                 />
                                             </FormControl>

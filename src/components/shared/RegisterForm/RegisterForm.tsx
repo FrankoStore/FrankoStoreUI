@@ -1,5 +1,6 @@
 "use client";
 
+import { useRegisterUser } from "@/services/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -23,39 +24,66 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
 interface RegisterFormPropsType {
-    onSubmit: () => void;
     onClose?: () => void;
     onOpen: () => void;
     onSecondaryButtonClick?: () => void;
     isVisible?: boolean;
 }
 
-const formSchema = z.object({
-    username: z.string().min(1, { message: "Це поле є обв'язковим" }),
-    phoneNumber: z
-        .string()
-        .regex(/^\+380\d{9}$/, { message: "Некоректний номер" }),
-    email: z.string().email({ message: "Некоректна пошта" }),
-    password: z
-        .string()
-        .min(8, { message: "Пароль має містити хоча б 8 символів" }),
-});
+const formSchema = z
+    .object({
+        firstAndLastName: z
+            .string()
+            .min(1, { message: "Прізвище та ім'я є обв'язковим" })
+            .refine((value) => value.trim().split(" ").length === 2, {
+                message: "Ім'я та прізвище не корректні",
+            }),
+        username: z
+            .string()
+            .min(1, { message: "Ім'я користувача є обв'язковим" }),
+        phoneNumber: z
+            .string()
+            .regex(/^\+380\d{9}$/, { message: "Некоректний номер" }),
+        email: z.string().email({ message: "Некоректна пошта" }),
+        password: z
+            .string()
+            .min(1, { message: "Пароль є обв'язковим" })
+            .min(8, { message: "Пароль має містити хоча б 8 символів" }),
+        passwordConfirm: z
+            .string()
+            .min(1, { message: "Підтвердження паролю є обв'язковим" })
+            .min(8, {
+                message: "Підтвердження паролю має містити хоча б 8 символів",
+            }),
+    })
+    .superRefine(({ password, passwordConfirm }, ctx) => {
+        if (passwordConfirm.trim() !== password.trim()) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Паролі не збігаються",
+            });
+        }
+    });
 
 export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
-    const { onSubmit, onClose, onOpen, onSecondaryButtonClick, isVisible } =
-        props;
+    const { onClose, onOpen, onSecondaryButtonClick, isVisible } = props;
+
+    const { registerUser } = useRegisterUser();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            firstAndLastName: "",
             username: "",
             phoneNumber: "",
             email: "",
             password: "",
+            passwordConfirm: "",
         },
-        mode: "onChange",
+        mode: "onSubmit",
     });
 
     const handleSecondaryButtonClick = () => {
@@ -68,18 +96,35 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
     };
 
     useEffect(() => {
-        console.log(form.formState.errors);
-    });
+        if (!form.formState.isValid) {
+            const errors = Object.values(form?.formState?.errors)?.map(
+                (item) => item.message,
+            );
+            const firstError = errors[0];
+            toast({ description: firstError });
+        }
+    }, [form.formState.submitCount, form.formState.isValid]);
 
-    // const handleSubmit = () => {
-    //     onSubmit();
-    //     handleClose();
-    // };
-
-    const handleSubmit: SubmitHandler<z.infer<typeof formSchema>> = (
+    const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
         values: z.infer<typeof formSchema>,
     ) => {
-        console.log(values);
+        const registerData = {
+            firstName: values.firstAndLastName.split(" ")[0],
+            lastName: values.firstAndLastName.split(" ")[1],
+            username: values.username,
+            email: values.email,
+            phone: values.phoneNumber,
+            password: values.password,
+        };
+
+        try {
+            await registerUser(registerData);
+            handleClose();
+        } catch (e) {
+            toast({ title: "Помилка реєстрації" });
+        } finally {
+            form.reset();
+        }
     };
 
     return (
@@ -101,7 +146,27 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                 </DialogHeader>
                 <div className="max-w-[420px] w-full mx-auto mt-10">
                     <Form {...form}>
-                        <form className="flex flex-col gap-[35px]">
+                        <form
+                            id="registerForm"
+                            className="flex flex-col gap-[35px]"
+                            onSubmit={form.handleSubmit(onSubmit)}
+                        >
+                            <div className="">
+                                <FormField
+                                    control={form.control}
+                                    name="firstAndLastName"
+                                    render={({ field }) => (
+                                        <FormItem className="relative">
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Ваше ім'я та прізвище"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <div className="">
                                 <FormField
                                     control={form.control}
@@ -110,11 +175,10 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                         <FormItem className="relative">
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Ім’я та Прізвище"
+                                                    placeholder="Ім'я користувача"
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage className="absolute top-full" />
                                         </FormItem>
                                     )}
                                 />
@@ -131,7 +195,6 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage className="absolute top-full" />
                                         </FormItem>
                                     )}
                                 />
@@ -148,7 +211,6 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage className="absolute top-full" />
                                         </FormItem>
                                     )}
                                 />
@@ -161,11 +223,26 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                         <FormItem className="relative">
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Придумайте пароль"
+                                                    placeholder="Пароль"
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage className="absolute top-full" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="">
+                                <FormField
+                                    control={form.control}
+                                    name="passwordConfirm"
+                                    render={({ field }) => (
+                                        <FormItem className="relative">
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Повторіть пароль"
+                                                    {...field}
+                                                />
+                                            </FormControl>
                                         </FormItem>
                                     )}
                                 />
@@ -173,14 +250,14 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                         </form>
                     </Form>
                 </div>
-                <DialogFooter className="max-w-[420px] w-full mx-auto mt-[60px] pb-[56px]">
+                <DialogFooter className="max-w-[420px] w-full mx-auto mt-[20px] pb-[56px]">
                     <div className="flex flex-col items-center w-full">
                         <DialogClose asChild>
                             <Button
                                 type="submit"
                                 className="w-full"
-                                disabled={!form.formState.isValid}
-                                onClick={form.handleSubmit(handleSubmit)}
+                                form="registerForm"
+                                // disabled={!form.formState.isValid}
                             >
                                 Зареєструватися
                             </Button>

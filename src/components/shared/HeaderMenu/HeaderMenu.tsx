@@ -1,7 +1,10 @@
 "use client";
 
 import { X } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
+
+import { URLS } from "@/lib/constants";
 
 import {
     DropdownMenu,
@@ -17,47 +20,47 @@ import { BurgerIcon, FacebookIcon, InstagramIcon } from "@/assets/icons";
 
 const menuItems = [
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "екотовари",
     },
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "канцелярське приладдя",
     },
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "одяг",
     },
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "сумки",
     },
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "посуд",
     },
     {
-        path: "/",
-        title: "оаксесуаридяг",
+        path: URLS.SHOP,
+        title: "аксесуари",
     },
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "набори",
     },
     {
-        path: "/",
+        path: URLS.SHOP,
         title: "лінійка 360",
     },
     {
-        path: "/",
+        path: URLS.DISCOUNT,
         title: "акції",
     },
     {
-        path: "/",
+        path: URLS.ABOUT,
         title: "про нас",
     },
     {
-        path: "/",
+        path: URLS.CABINET,
         title: "особистий кабінет",
     },
 ];
@@ -77,7 +80,7 @@ export const HeaderMenu = () => {
                         return (
                             <React.Fragment key={key}>
                                 <DropdownMenuItem className="uppercase text-[17px] font-semibold">
-                                    {item.title}
+                                    <Link href={item.path}>{item.title}</Link>
                                 </DropdownMenuItem>
                                 {index !== menuItems.length - 1 && (
                                     <DropdownMenuSeparator />
