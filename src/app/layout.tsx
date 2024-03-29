@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 
 import { ApolloClientProvider } from "@/components/providers/ApolloClientProvider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 export const metadata: Metadata = {
     title: "LNU Store",
@@ -15,10 +16,16 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="ua" suppressHydrationWarning>
             <ApolloClientProvider>
                 <body className={cn("flex flex-col min-h-screen")}>
-                    {children}
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                    >
+                        {children}
+                    </ThemeProvider>
                 </body>
             </ApolloClientProvider>
         </html>

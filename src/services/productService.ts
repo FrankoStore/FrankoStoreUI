@@ -1,8 +1,9 @@
 import { CREATE_CATEGORY } from "@/api/mutations/createCategory";
 import { CREATE_PRODUCT } from "@/api/mutations/createProduct";
 import { UPDATE_CATEGORY_NAME } from "@/api/mutations/updateCategoryName";
-import { UPDATE_PRODUCT } from "@/api/mutations/updateProduct";
+// import { UPDATE_PRODUCT } from "@/api/mutations/updateProduct";
 import { GET_CATEGORIES } from "@/api/queries/getCategories";
+import { GET_PRODUCTS } from "@/api/queries/getProducts";
 import { useMutation, useQuery } from "@apollo/client";
 
 enum SIZE {
@@ -24,12 +25,14 @@ interface CreateProductData {
     retailPrice: number;
     size: keyof typeof SIZE;
     width: number;
+    // amount: number;
+    images: any[];
 }
 
 export const useGetProductsQuery = () => {
-    const { loading, error, data } = useQuery(GET_CATEGORIES);
+    const { loading, error, data } = useQuery(GET_PRODUCTS);
 
-    const categories = data?.getProductCategories;
+    const categories = data?.getProducts;
 
     return { data: categories, isLoading: loading, error };
 };
@@ -46,7 +49,7 @@ export const useGetProductByIdQuery = (id: number) => {
 
 export const useUpdateProduct = () => {
     const [updateProductMutation, { data, loading, error }] =
-        useMutation(UPDATE_PRODUCT);
+        useMutation(CREATE_PRODUCT);
 
     const updateProduct = async (id: number, data: CreateProductData) => {
         await updateProductMutation({

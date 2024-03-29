@@ -5,7 +5,6 @@ import {
     useUpdateCategoryName,
 } from "@/services/categoriesService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";

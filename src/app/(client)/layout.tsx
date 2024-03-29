@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+"use client";
+
 import { useTheme } from "next-themes";
 import { Inter } from "next/font/google";
+import { useLayoutEffect } from "react";
 
 import { cn } from "@/lib/utils";
 
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Footer, Header } from "@/components/shared";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -17,14 +18,18 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const { setTheme } = useTheme();
+
+    useLayoutEffect(() => {
+        setTheme("light");
+    }, []);
+
     return (
-        <ThemeProvider attribute="id" defaultTheme="light">
-            <div className={cn(inter.className)}>
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer overrideContainerStyle="mt-[112px]" />
-                <Toaster />
-            </div>
-        </ThemeProvider>
+        <div className={cn(inter.className)}>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer overrideContainerStyle="mt-[112px]" />
+            <Toaster />
+        </div>
     );
 }

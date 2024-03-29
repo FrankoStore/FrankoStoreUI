@@ -1,7 +1,6 @@
 "use client";
 
 import { ProductColumn } from "./columns";
-import axios from "axios";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,7 +29,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     const onConfirm = async () => {
         try {
             setLoading(true);
-            await axios.delete(`/api/${params.storeId}/products/${data.id}`);
+            // await axios.delete(`/api/${params.storeId}/products/${data.id}`);
             toast.success("Product deleted.");
             router.refresh();
         } catch (error) {
@@ -63,12 +62,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => onCopy(data.id)}>
-                        <Copy className="mr-2 h-4 w-4" /> Copy Id
+                    <DropdownMenuItem onClick={() => onCopy(data.name)}>
+                        <Copy className="mr-2 h-4 w-4" /> Copy Name
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() =>
-                            router.push(`/admin/products/${data.id}`)
+                            router.push(`/admin/products/${data.name}/edit`)
                         }
                     >
                         <Edit className="mr-2 h-4 w-4" /> Update

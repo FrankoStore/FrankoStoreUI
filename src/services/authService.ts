@@ -1,6 +1,8 @@
 import { LOGIN } from "@/api/mutations/login";
+import { REFRESH } from "@/api/mutations/refresh";
 import { REGISTER } from "@/api/mutations/register";
 import { useMutation } from "@apollo/client";
+import { useLocalStorage } from "usehooks-ts";
 
 interface RegisterUserType {
     firstName: string;
@@ -19,6 +21,8 @@ interface LoginUserType {
 interface RefreshInput {}
 
 export const useRegisterUser = () => {
+    const [, setAccessToken] = useLocalStorage("accessToken", "");
+    const [, setRefreshToken] = useLocalStorage("refreshToken", "");
     const [registerUserMutation, { data, loading, error }] =
         useMutation(REGISTER);
 
@@ -27,14 +31,16 @@ export const useRegisterUser = () => {
             variables: { user: { ...userData, roles: "Customer" } },
         });
 
-        localStorage.setItem("accessToken", data.register.accessToken);
-        localStorage.setItem("refreshToken", data.register.refreshToken);
+        setAccessToken(data.register.accessToken);
+        setRefreshToken(data.register.refreshToken);
     };
 
     return { registerUser };
 };
 
 export const useLoginUser = () => {
+    const [, setAccessToken] = useLocalStorage("accessToken", "");
+    const [, setRefreshToken] = useLocalStorage("refreshToken", "");
     const [loginUserMutation, { data, loading, error }] = useMutation(LOGIN);
 
     const loginUser = async (userData: LoginUserType) => {
@@ -42,11 +48,27 @@ export const useLoginUser = () => {
             variables: { authenticationInput: userData },
         });
 
-        localStorage.setItem("accessToken", data.login.accessToken);
-        localStorage.setItem("refreshToken", data.login.refreshToken);
+        setAccessToken(data.login.accessToken);
+        setRefreshToken(data.login.refreshToken);
     };
 
     return { loginUser };
 };
 
-export const useRefreshUser = (userData: RefreshInput) => {};
+export const useRefreshUser = (userData: RefreshInput) => {
+    const [, setAccessToken] = useLocalStorage("accessToken", "");
+    const [, setRefreshToken] = useLocalStorage("refreshToken", "");
+    const [refreshUserMutation, { data, loading, error }] =
+        useMutation(REFRESH);
+
+    const refreshUser = async (userData: LoginUserType) => {
+        const { data } = await refreshUserMutation({
+            variables: { authenticationInput: userData },
+        });
+
+        setAccessToken(data.register.accessToken);
+        setRefreshToken(data.register.refreshToken);
+    };
+
+    return { refreshUser };
+};

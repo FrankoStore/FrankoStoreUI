@@ -2,7 +2,7 @@
 
 import { useRegisterUser } from "@/services/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { EyeIcon, EyeOffIcon, SearchIcon, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,19 +16,12 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 interface RegisterFormPropsType {
     onClose?: () => void;
-    onOpen: () => void;
     onSecondaryButtonClick?: () => void;
     isVisible?: boolean;
 }
@@ -69,7 +62,13 @@ const formSchema = z
     });
 
 export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
-    const { onClose, onOpen, onSecondaryButtonClick, isVisible } = props;
+    const { onClose, onSecondaryButtonClick, isVisible } = props;
+
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+        useState(false);
+
+    const { toast } = useToast();
 
     const { registerUser } = useRegisterUser();
 
@@ -103,7 +102,7 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
             const firstError = errors[0];
             toast({ description: firstError });
         }
-    }, [form.formState.submitCount, form.formState.isValid]);
+    }, [form.formState.submitCount]);
 
     const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
         values: z.infer<typeof formSchema>,
@@ -119,11 +118,11 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
 
         try {
             await registerUser(registerData);
+            toast({ title: "Користувач зареєстрований" });
             handleClose();
+            form.reset();
         } catch (e) {
             toast({ title: "Помилка реєстрації" });
-        } finally {
-            form.reset();
         }
     };
 
@@ -156,7 +155,7 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                     control={form.control}
                                     name="firstAndLastName"
                                     render={({ field }) => (
-                                        <FormItem className="relative">
+                                        <FormItem>
                                             <FormControl>
                                                 <Input
                                                     placeholder="Ваше ім'я та прізвище"
@@ -172,7 +171,7 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                     control={form.control}
                                     name="username"
                                     render={({ field }) => (
-                                        <FormItem className="relative">
+                                        <FormItem>
                                             <FormControl>
                                                 <Input
                                                     placeholder="Ім'я користувача"
@@ -188,7 +187,7 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                     control={form.control}
                                     name="phoneNumber"
                                     render={({ field }) => (
-                                        <FormItem className="relative">
+                                        <FormItem>
                                             <FormControl>
                                                 <Input
                                                     placeholder="Телефон"
@@ -204,7 +203,7 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                     control={form.control}
                                     name="email"
                                     render={({ field }) => (
-                                        <FormItem className="relative">
+                                        <FormItem>
                                             <FormControl>
                                                 <Input
                                                     placeholder="Електронна пошта"
@@ -220,28 +219,70 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                     control={form.control}
                                     name="password"
                                     render={({ field }) => (
-                                        <FormItem className="relative">
+                                        <FormItem>
                                             <FormControl>
-                                                <Input
-                                                    placeholder="Пароль"
-                                                    {...field}
-                                                />
+                                                <div className="relative">
+                                                    <Input
+                                                        placeholder="Пароль"
+                                                        type={
+                                                            isPasswordVisible
+                                                                ? "text"
+                                                                : "password"
+                                                        }
+                                                        {...field}
+                                                    />
+                                                    <div
+                                                        onClick={() =>
+                                                            setIsPasswordVisible(
+                                                                !isPasswordVisible,
+                                                            )
+                                                        }
+                                                        className="absolute right-2 top-[10px] cursor-pointer"
+                                                    >
+                                                        {isPasswordVisible ? (
+                                                            <EyeIcon className="bg-none border-none" />
+                                                        ) : (
+                                                            <EyeOffIcon className="bg-none border-none" />
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
                             </div>
-                            <div className="">
+                            <div>
                                 <FormField
                                     control={form.control}
                                     name="passwordConfirm"
                                     render={({ field }) => (
-                                        <FormItem className="relative">
+                                        <FormItem>
                                             <FormControl>
-                                                <Input
-                                                    placeholder="Повторіть пароль"
-                                                    {...field}
-                                                />
+                                                <div className="relative">
+                                                    <Input
+                                                        placeholder="Повторіть пароль"
+                                                        type={
+                                                            isConfirmPasswordVisible
+                                                                ? "text"
+                                                                : "password"
+                                                        }
+                                                        {...field}
+                                                    />
+                                                    <div
+                                                        onClick={() =>
+                                                            setIsConfirmPasswordVisible(
+                                                                !isConfirmPasswordVisible,
+                                                            )
+                                                        }
+                                                        className="absolute right-2 top-[10px] cursor-pointer"
+                                                    >
+                                                        {isConfirmPasswordVisible ? (
+                                                            <EyeIcon className="bg-none border-none" />
+                                                        ) : (
+                                                            <EyeOffIcon className="bg-none border-none" />
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -257,7 +298,7 @@ export const RegisterForm: React.FC<RegisterFormPropsType> = (props) => {
                                 type="submit"
                                 className="w-full"
                                 form="registerForm"
-                                // disabled={!form.formState.isValid}
+                                disabled={!form.formState.isValid}
                             >
                                 Зареєструватися
                             </Button>

@@ -3,7 +3,6 @@ import { Fira_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 import { ModalProvider } from "@/components/providers/modal-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ToasterProvider } from "@/components/providers/toast-provider";
 
 import "./globals.css";
@@ -17,11 +16,9 @@ export default function RootLayout({
 }) {
     return (
         <div className={cn(font.className, "flex-1")}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                <ToasterProvider />
-                <ModalProvider />
-                {children}
-            </ThemeProvider>
+            <ToasterProvider />
+            <ModalProvider />
+            {children}
         </div>
     );
 }

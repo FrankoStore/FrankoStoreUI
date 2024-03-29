@@ -2,13 +2,12 @@
 
 import { useLoginUser } from "@/services/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { EyeIcon, EyeOffIcon, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     Dialog,
     DialogClose,
@@ -17,21 +16,13 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 interface LoginFormPropsType {
-    onSubmit: () => void;
     onClose?: () => void;
-    onOpen: () => void;
-    onSecondryButtonClick?: () => void;
+    onSecondaryButtonClick?: () => void;
     isVisible?: boolean;
 }
 
@@ -43,8 +34,10 @@ const formSchema = z.object({
 });
 
 export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
-    const { onSubmit, onClose, onOpen, onSecondryButtonClick, isVisible } =
-        props;
+    const { onClose, onSecondaryButtonClick, isVisible } = props;
+
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const { toast } = useToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -52,14 +45,14 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
             username: "",
             password: "",
         },
-        mode: "onChange",
+        mode: "onSubmit",
     });
 
     const { loginUser } = useLoginUser();
 
     const handleSecondaryClick = () => {
         onClose?.();
-        onSecondryButtonClick?.();
+        onSecondaryButtonClick?.();
     };
 
     const handleClose = () => {
@@ -74,7 +67,7 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
             const firstError = errors[0];
             toast({ description: firstError });
         }
-    }, [form.formState.submitCount, form.formState.isValid]);
+    }, [form.formState.submitCount]);
 
     const handleSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
         values: z.infer<typeof formSchema>,
@@ -86,11 +79,13 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
 
         try {
             await loginUser(loginData);
+            toast({ title: "Користувач авторизований" });
             handleClose();
-        } catch (e) {
-            toast({ title: "Помилка автентифікації" });
-        } finally {
             form.reset();
+        } catch (e) {
+            toast({
+                title: "Неправильні дані",
+            });
         }
     };
 
@@ -126,36 +121,46 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage className="absolute top-full" />
                                         </FormItem>
                                     )}
                                 />
                             </div>
-                            <div className="">
+                            <div>
                                 <FormField
                                     control={form.control}
                                     name="password"
                                     render={({ field }) => (
                                         <FormItem className="relative">
                                             <FormControl>
-                                                <Input
-                                                    placeholder="Пароль"
-                                                    {...field}
-                                                />
+                                                <div className="relative">
+                                                    <Input
+                                                        placeholder="Пароль"
+                                                        type={
+                                                            isPasswordVisible
+                                                                ? "text"
+                                                                : "password"
+                                                        }
+                                                        {...field}
+                                                    />
+                                                    <div
+                                                        onClick={() =>
+                                                            setIsPasswordVisible(
+                                                                !isPasswordVisible,
+                                                            )
+                                                        }
+                                                        className="absolute right-2 top-[10px] cursor-pointer"
+                                                    >
+                                                        {isPasswordVisible ? (
+                                                            <EyeIcon className="bg-none border-none" />
+                                                        ) : (
+                                                            <EyeOffIcon className="bg-none border-none" />
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </FormControl>
-                                            <FormMessage className="absolute top-full" />
                                         </FormItem>
                                     )}
                                 />
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Checkbox id="remember" />
-                                <label
-                                    htmlFor="remember"
-                                    className="text-[15px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                    Запам’ятати мене
-                                </label>
                             </div>
                         </form>
                     </Form>

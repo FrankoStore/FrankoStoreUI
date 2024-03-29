@@ -25,15 +25,18 @@ export const columns: ColumnDef<ProductColumn>[] = [
         header: "Price",
     },
     {
-        accessorKey: "category",
-        header: "Category",
+        accessorKey: "categories",
+        header: "Categories",
     },
     {
-        accessorKey: "amount",
-        header: "Amount",
+        accessorKey: "size",
+        header: "Size",
     },
     {
         id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
+        cell: ({ row }) => {
+            console.log(row.original, "asdasdasd");
+            return <CellAction data={row.original} />;
+        },
     },
 ];
