@@ -32,7 +32,6 @@ export const Header = () => {
     return (
         <Container>
             <RegisterForm
-                onOpen={() => {}}
                 onClose={() => setRegisterOpened(false)}
                 onSecondaryButtonClick={() => {
                     setRegisterOpened(false);
@@ -41,10 +40,8 @@ export const Header = () => {
                 isVisible={registerOpened}
             />
             <LoginForm
-                onSubmit={() => {}}
-                onOpen={() => {}}
                 onClose={() => setLoginOpened(false)}
-                onSecondryButtonClick={() => {
+                onSecondaryButtonClick={() => {
                     setLoginOpened(false);
                     setRegisterOpened(true);
                 }}

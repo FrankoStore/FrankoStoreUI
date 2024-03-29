@@ -8,26 +8,6 @@ import { toast } from "react-hot-toast";
 import * as z from "zod";
 
 import { ProductForm } from "../../_components/product-form";
-import { Button } from "@/components/ui/buttonAdmin";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
-import ImageUpload from "@/components/ui/image-upload";
-import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -38,19 +18,22 @@ const formSchema = z.object({
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
-interface ProductFormProps {
-    initialData: any | null;
-    productId: number;
-    categories: any[] | null;
-}
-
-const EditProduct: React.FC<ProductFormProps> = ({
-    initialData,
-    productId,
-    categories,
-}) => {
+const EditProductPage = () => {
     const params = useParams();
     const router = useRouter();
+
+    const initialData = {
+        name: "",
+        images: [],
+        price: null,
+        categories: "",
+        length: null,
+        width: null,
+        height: null,
+        size: "",
+        retailPrice: null,
+        description: "",
+    }; // get this from api, as current product values
 
     const [loading, setLoading] = useState(false);
 
@@ -94,13 +77,10 @@ const EditProduct: React.FC<ProductFormProps> = ({
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <ProductForm
-                    categories={categories}
-                    initialData={defaultValues}
-                />
+                <ProductForm categories={[]} initialData={defaultValues} />
             </div>
         </div>
     );
 };
 
-export default EditProduct;
+export default EditProductPage;
