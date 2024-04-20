@@ -1,6 +1,7 @@
 "use client";
 
 import { Upload, X } from "lucide-react";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -122,9 +123,10 @@ export const FileUpload: React.FC<PreviewsProps> = (props) => {
                 <X className="text-lg" />
             </Button>
             <div className="flex overflow-hidden">
-                <img
+                <Image
                     src={file.preview}
-                    // style={img}
+                    width={400}
+                    height={300}
                     className="w-auto h-full block"
                     onLoad={() => {
                         URL.revokeObjectURL(file.preview);
@@ -143,7 +145,7 @@ export const FileUpload: React.FC<PreviewsProps> = (props) => {
     return (
         <section
             className={cn(
-                "w-full w-full border-[1px] p-2 border-gray-600 rounded-md cursor-pointer",
+                "w-full border-[1px] p-2 border-gray-600 rounded-md cursor-pointer",
                 {
                     "pointer-events-none cursor-default opacity-80": disabled,
                 },
@@ -155,7 +157,8 @@ export const FileUpload: React.FC<PreviewsProps> = (props) => {
             <div {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} ref={fileInputRef} />
                 <p className="text-sm text-center">
-                    Drag 'n' drop some files here, or click to select files
+                    Drag &apos;n&apos; drop some files here, or click to select
+                    files
                 </p>
             </div>
             {files?.length === 0 && (

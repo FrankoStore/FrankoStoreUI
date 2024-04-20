@@ -45,6 +45,7 @@
         "react-hot-toast": "^2.4.1",
         "react-spinners": "^0.13.8",
         "recharts": "^2.12.3",
+        "sharp": "^0.33.3",
         "tailwind-merge": "^2.2.1",
         "tailwindcss-animate": "^1.0.7",
         "usehooks-ts": "^3.0.1",

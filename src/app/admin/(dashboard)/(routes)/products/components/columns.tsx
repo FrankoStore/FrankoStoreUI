@@ -1,19 +1,13 @@
 "use client";
 
 import { CellAction } from "./cell-action";
+import { IProduct } from "@/types/Product.types";
 import { ColumnDef } from "@tanstack/react-table";
 
-export type ProductColumn = {
-    id: string;
-    name: string;
-    price: string;
-    category: string;
-    size: string;
-    color: string;
-    createdAt: string;
-    isFeatured: boolean;
-    isArchived: boolean;
-};
+export interface ProductColumn extends Pick<IProduct, "id" | "size" | "name"> {
+    price: number;
+    categories: string;
+}
 
 export const columns: ColumnDef<ProductColumn>[] = [
     {
@@ -35,7 +29,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
-            console.log(row.original, "asdasdasd");
             return <CellAction data={row.original} />;
         },
     },

@@ -1,32 +1,30 @@
 "use client";
 
-import { useGetProductsQuery } from "@/services/productService";
-import { format } from "date-fns";
+import { useGetProductsWithOptions } from "@/services/productService";
 import { useEffect, useState } from "react";
 
 import { ProductsClient } from "./components/client";
 import { ProductColumn } from "./components/columns";
 
-const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
-    const { data: products } = useGetProductsQuery();
+const ProductsPage = () => {
+    const { data: products } = useGetProductsWithOptions();
 
     const [formattedProducts, setFormattedProducts] = useState<ProductColumn[]>(
         [],
     );
 
     useEffect(() => {
-        const formattedProducts: ProductColumn[] = products?.map(
-            (item: any) => ({
-                name: item.name,
-                price: item.retailPrice,
-                categories: item.categories[0].name,
-                size: item.size,
-            }),
+        setFormattedProducts(
+            products?.map(({ name, size, categories, retailPrice, id }) => ({
+                name,
+                size,
+                categories: categories
+                    .map((category) => category.name)
+                    .join(","),
+                price: retailPrice,
+                id,
+            })),
         );
-
-        console.log(products);
-
-        setFormattedProducts(formattedProducts);
     }, [products]);
 
     return (

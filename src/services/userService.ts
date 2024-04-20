@@ -1,4 +1,3 @@
-import { GET_PRODUCTS } from "@/api/queries/getProducts";
 import { GET_USER_DATA } from "@/api/queries/getUserData";
 import { useQuery } from "@apollo/client";
 

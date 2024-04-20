@@ -1,12 +1,13 @@
 "use client";
 
+import { IProductCard } from "@/types/Product.types";
 import React from "react";
 
-import { Product, ProductCardList } from "@/components/shared";
+import { ProductCardList } from "@/components/shared";
 
 interface ProductSectionPropsType {
     title?: string;
-    items?: Product[];
+    items?: IProductCard[];
     buttonText?: string;
     overrideTitleStyle?: string;
     overrideContainerStyle?: string;

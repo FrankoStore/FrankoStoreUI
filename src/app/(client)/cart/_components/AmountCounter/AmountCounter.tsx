@@ -5,19 +5,28 @@ import React, { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
+import { useCart } from "@/hooks/use-cart";
+
 interface AmountCounterPropsType {
+    productId: number;
+    quantity: number;
     overrideContainerStyle?: string;
 }
 
 export const AmountCounter: React.FC<AmountCounterPropsType> = (props) => {
-    const { overrideContainerStyle } = props;
+    const { overrideContainerStyle, productId, quantity } = props;
 
-    const [counter, setCounter] = useState(1);
+    const [counter, setCounter] = useState(quantity);
+    const { updateQuantity } = useCart();
 
-    const increase = () => setCounter((prev) => prev + 1);
+    const increase = () => {
+        setCounter((prev) => prev + 1);
+        updateQuantity(productId, counter + 1);
+    };
     const decrease = () => {
         if (counter === 1) return;
-        else setCounter((prev) => prev - 1);
+        setCounter((prev) => prev - 1);
+        updateQuantity(productId, counter - 1);
     };
 
     return (

@@ -37,7 +37,6 @@ interface CategoryFormProps {
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
-    const params = useParams();
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
@@ -63,8 +62,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     });
 
     const onSubmit = async (data: CategoryFormValues) => {
-        console.log(data);
-
         try {
             setLoading(true);
             if (initialData?.name) {
@@ -88,7 +85,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
             setLoading(true);
 
             router.refresh();
-            router.push(`/${params.storeId}/categories`);
+            router.push(`/admin/categories`);
             toast.success("Category deleted.");
         } catch (error: any) {
             toast.error(

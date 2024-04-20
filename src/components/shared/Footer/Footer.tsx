@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterPropsType> = (props) => {
     return (
         <footer
             className={cn(
-                "bg-darkblue pt-[67px] pb-[135px]",
+                "bg-darkblue py-[67px]",
                 overrideContainerStyle,
             )}
         >
@@ -51,6 +51,10 @@ export const Footer: React.FC<FooterPropsType> = (props) => {
                                     href={link.path}
                                     className="uppercase text-white"
                                     key={key}
+                                    {...(index === navigationItems.length - 1 ? {
+                                        target: "_blank",
+                                        rel: "noopener noreferrer"
+                                    } : {})}
                                 >
                                     {link.title}
                                 </Link>

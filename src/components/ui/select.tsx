@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "./skeleton";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import * as React from "react";
@@ -146,6 +147,10 @@ const SelectSeparator = React.forwardRef<
 ));
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
+const SelectSkeleton = () => (
+    <Skeleton className="w-[378px] h-[45px] rounded-[calc(0.5rem-2px)]" />
+);
+
 export {
     Select,
     SelectGroup,
@@ -157,4 +162,5 @@ export {
     SelectSeparator,
     SelectScrollUpButton,
     SelectScrollDownButton,
+    SelectSkeleton,
 };

@@ -14,9 +14,9 @@ export const ArrowIcon: React.FC<IconPropsType> = (props) => {
         >
             <path
                 d="M28.1216 41.9578L48.0001 22.0793L28.1216 2.20079"
-                stroke-width="4.5"
+                strokeWidth="4.5"
             />
-            <path d="M-1.38324e-06 22L45 22" stroke-width="4.5" />
+            <path d="M-1.38324e-06 22L45 22" strokeWidth="4.5" />
         </svg>
     );
 };

@@ -1,6 +1,7 @@
 "use client";
 
-import { CategoryColumn, columns } from "./columns";
+import { columns } from "./columns";
+import { ICategory } from "@/types/Category.types";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +11,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 interface CategoriesClientProps {
-    data: CategoryColumn[];
+    data: ICategory[];
 }
 
 export const CategoriesClient: React.FC<CategoriesClientProps> = ({ data }) => {

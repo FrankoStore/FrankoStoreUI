@@ -16,7 +16,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ua" suppressHydrationWarning>
+        <html lang="ua">
             <ApolloClientProvider>
                 <body className={cn("flex flex-col min-h-screen")}>
                     <ThemeProvider

@@ -1,15 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 
 import { URLS } from "@/lib/constants";
 
+import { useCart } from "@/hooks/use-cart";
+
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const PlaceOrderPage = () => {
+    const { products } = useCart();
     return (
         <Container className="pt-[70px]">
             <h2 className="uppercase text-darkblue text-[35px]">
@@ -32,53 +38,68 @@ const PlaceOrderPage = () => {
                             <p className="text-[23px]">Проміжний підсумок</p>
                         </div>
                         <div className="mt-[28px]">
-                            <div className="border-b-[1px] border-b-black flex justify-between pb-2 mt-[20px]">
-                                <div className="flex gap-1 text-[17px]">
-                                    <p>Екоторба “Сlassic”</p>
-                                    <p>×1</p>
+                            {products.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className="border-b-[1px] border-b-black flex justify-between pb-2 mt-[20px]"
+                                >
+                                    <div className="flex gap-1 text-[17px]">
+                                        <p>{product.name}</p>
+                                        <p>×{product.quantity}</p>
+                                    </div>
+                                    <p className="text-[17px]">
+                                        {product.retailPrice} грн
+                                    </p>
                                 </div>
-                                <p className="text-[17px]">125 грн</p>
-                            </div>
-                            <div className="border-b-[1px] border-b-black flex justify-between pb-2 mt-[20px]">
-                                <div className="flex gap-1 text-[17px]">
-                                    <p>Футболка</p>
-                                    <p>×2</p>
-                                </div>
-                                <p className="text-[17px]">1100 грн</p>
-                            </div>
+                            ))}
                         </div>
                         <div className="flex justify-between mt-6">
                             <p className="text-[23px]">Проміжний підсумок</p>
-                            <p className="text-[17px]">1225 грн</p>
+                            <p className="text-[17px]">
+                                {products.reduce(
+                                    (acc, order) =>
+                                        acc +
+                                        (order.retailPrice ?? 0) *
+                                            order.quantity,
+                                    0,
+                                )}
+                                грн
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="flex pt-[150px]">
-                <div className="mr-[90px]">
-                    <p className="font-medium text-[28px]">Доставка</p>
-                </div>
+                <p className="font-medium text-[28px] mr-[90px]">Доставка</p>
                 <div className="pt-3">
-                    <div className="flex gap-[30px] items-center">
+                    <RadioGroup className="flex gap-[30px] items-center">
                         <div className="flex items-center gap-2 w-[350px]">
-                            <Checkbox id="nova-poshta" />
-                            <label
-                                htmlFor="remember"
-                                className="text-[17px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            <RadioGroupItem
+                                value="nova-poshta"
+                                id="nova-poshta"
+                                className="rounded-none w-5 h-5"
+                            />
+                            <Label
+                                htmlFor="nova-poshta"
+                                className="text-[17px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer"
                             >
                                 Доставка Новою поштою
-                            </label>
+                            </Label>
                         </div>
                         <div className="flex items-center gap-2 w-[350px]">
-                            <Checkbox id="self-delivery" />
-                            <label
-                                htmlFor="remember"
-                                className="text-[17px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            <RadioGroupItem
+                                value="self-delivery"
+                                id="self-delivery"
+                                className="rounded-none w-5 h-5"
+                            />
+                            <Label
+                                htmlFor="self-delivery"
+                                className="text-[17px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer"
                             >
                                 Самовивіз з магазину
-                            </label>
+                            </Label>
                         </div>
-                    </div>
+                    </RadioGroup>
                     <div className="flex gap-[30px] items-center mt-[30px]">
                         <div className="flex items-center gap-2 w-[350px]">
                             <Input placeholder="Виберіть місто доставки" />
@@ -104,34 +125,52 @@ const PlaceOrderPage = () => {
             </div>
             <div className="pt-[140px]">
                 <h2 className="font-medium text-[28px]">
-                    До оплати: 1 225 грн
+                    До оплати:&nbsp;
+                    {
+                        products.reduce(
+                            (acc, order) =>
+                                acc + (order.retailPrice ?? 0) * order.quantity,
+                            0,
+                        ) /** + доставка */
+                    }
+                    грн
                 </h2>
                 <div className="flex flex-col gap-[23px] mt-[60px]">
-                    <div className="flex items-center gap-4">
-                        <Checkbox id="card-payment" />
-                        <label
-                            htmlFor="remember"
-                            className="text-[15px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                            Оплата карткою, Apple або Google Pay Безпечна оплата
-                            кредитною/дебетовою карткою або Apple/Google Pay за
-                            допомогою Fondy
-                        </label>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <Checkbox id="card-payment" />
-                        <label
-                            htmlFor="on-receive"
-                            className="text-[15px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                            Оплата при отриманні
-                        </label>
-                    </div>
+                    <RadioGroup className="gap-[23px]">
+                        <div className="flex items-center gap-4">
+                            <RadioGroupItem
+                                value="card-payment"
+                                id="card-payment"
+                                className="rounded-none w-5 h-5"
+                            />
+                            <Label
+                                htmlFor="card-payment"
+                                className="text-[15px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer whitespace-nowrap"
+                            >
+                                Оплата карткою, Apple або Google Pay Безпечна
+                                оплата кредитною/дебетовою карткою або
+                                Apple/Google Pay за допомогою Fondy
+                            </Label>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <RadioGroupItem
+                                value="on-receive"
+                                id="on-receive"
+                                className="rounded-none w-5 h-5"
+                            />
+                            <Label
+                                htmlFor="on-receive"
+                                className="text-[15px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer whitespace-nowrap"
+                            >
+                                Оплата при отриманні
+                            </Label>
+                        </div>
+                    </RadioGroup>
                     <div className="flex items-center gap-4 ">
-                        <Checkbox id="card-payment" />
+                        <Checkbox id="personal-data" />
                         <label
                             htmlFor="personal-data"
-                            className="text-[15px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            className="text-[15px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                         >
                             При оформленні замовлення ви погоджуєтеся на обробку
                             своїх персональних даних та іншу інформацію, описану

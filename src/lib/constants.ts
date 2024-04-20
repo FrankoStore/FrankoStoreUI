@@ -2,6 +2,7 @@ export enum URLS {
     HOME = "/",
     SHOP = "/shop",
     ABOUT = "/about",
+    CONTACTS = "/contacts",
     PRODUCT = "/product",
     CABINET = "/user-profile",
     CART = "/cart",

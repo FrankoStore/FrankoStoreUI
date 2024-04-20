@@ -1,6 +1,8 @@
 "use client";
 
-import { useCreateProduct } from "@/services/productService";
+import { useGetCategoriesQuery } from "@/services/categoriesService";
+import { useCreateProduct, useUpdateProduct } from "@/services/productService";
+import { IProduct } from "@/types/Product.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -47,9 +49,7 @@ const formSchema = z.object({
         .array()
         .nonempty(),
     retailPrice: z.coerce.number().min(1),
-    categories: z.string(),
-    // categories: z.object({ name: z.string() }).array(),
-    // amount: z.coerce.number().min(1),
+    categories: z.object({ name: z.string() }).array(),
     height: z.coerce.number().min(0),
     width: z.coerce.number().min(0),
     length: z.coerce.number().min(0),
@@ -59,20 +59,25 @@ const formSchema = z.object({
 type ProductFormValues = z.infer<typeof formSchema>;
 
 interface ProductFormProps {
-    initialData: any | null;
-    categories: any[];
+    initialData: Omit<IProduct, "categories" | "id"> & {
+        categories: { name: string | undefined }[];
+    };
     view?: "add" | "edit";
+    id?: number;
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
     initialData,
-    categories,
     view = "add",
+    id,
 }) => {
     const params = useParams();
     const router = useRouter();
 
     const { createProduct } = useCreateProduct();
+    const { updateProduct } = useUpdateProduct();
+    const { data: categories, isLoading: isCategoriesLoading } =
+        useGetCategoriesQuery();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -90,11 +95,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     });
 
     const onSubmit = async (data: ProductFormValues) => {
-        console.log(data);
-
         const requestData = {
-            // amount: data.amount,
-            categories: [{ name: data.categories }],
+            categories: data.categories,
             description: data.description,
             height: data.height,
             length: data.length,
@@ -102,10 +104,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             size: data.size,
             name: data.name,
             retailPrice: data.retailPrice,
-            images: data.images,
+            images: [],
         };
-
-        createProduct(requestData);
+        view === "add"
+            ? createProduct(requestData)
+            : updateProduct(id ?? 0, { ...requestData, amount: 10 });
         try {
             setLoading(true);
             // make request
@@ -123,11 +126,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     const onDelete = async () => {
         try {
             setLoading(true);
-            // await axios.delete(
-            //     `/api/${params.storeId}/products/${params.productId}`,
-            // );
             router.refresh();
-            router.push(`/${params.storeId}/products`);
+            router.push(`/admin/products`);
             toast.success("Product deleted.");
         } catch (error: any) {
             toast.error("Something went wrong.");
@@ -176,6 +176,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                             <Input
                                                 disabled={loading}
                                                 placeholder="Product name"
+                                                required
                                                 {...field}
                                             />
                                         </FormControl>
@@ -194,6 +195,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                 type="number"
                                                 disabled={loading}
                                                 placeholder="0 UAH"
+                                                required
+                                                min={0}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -201,38 +204,50 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="categories"
-                                render={({ field }) => (
-                                    <FormItem className="w-1/3">
-                                        <FormLabel>Category</FormLabel>
-                                        <Select
-                                            disabled={loading}
-                                            onValueChange={field.onChange}
-                                            // value={field.value}
-                                            // defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select a category" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {categories?.map((category) => (
-                                                    <SelectItem
-                                                        key={category.id}
-                                                        value={category.name}
-                                                    >
-                                                        {category.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            {!isCategoriesLoading && (
+                                <FormField
+                                    control={form.control}
+                                    name="categories"
+                                    render={({ field }) => (
+                                        <FormItem className="w-1/3">
+                                            <FormLabel>Category</FormLabel>
+                                            <Select
+                                                disabled={loading}
+                                                onValueChange={(value) =>
+                                                    field.onChange([
+                                                        {
+                                                            name: value,
+                                                        },
+                                                    ])
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select a category" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {categories?.map(
+                                                        (category) => (
+                                                            <SelectItem
+                                                                key={
+                                                                    category.id
+                                                                }
+                                                                value={
+                                                                    category.name
+                                                                }
+                                                            >
+                                                                {category.name}
+                                                            </SelectItem>
+                                                        ),
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            )}
                         </div>
                         <div className="flex gap-8">
                             <FormField
@@ -245,7 +260,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                             <Input
                                                 type="number"
                                                 disabled={loading}
-                                                placeholder="0 sm"
+                                                placeholder="0 cm"
+                                                required
+                                                min={0}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -263,7 +280,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                             <Input
                                                 type="number"
                                                 disabled={loading}
-                                                placeholder="0 sm"
+                                                placeholder="0 cm"
+                                                required
+                                                min={0}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -281,7 +300,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                             <Input
                                                 type="number"
                                                 disabled={loading}
-                                                placeholder="0 sm"
+                                                placeholder="0 cm"
+                                                required
+                                                min={0}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -298,11 +319,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                     <FormItem className="w-1/3">
                                         <FormLabel>Length</FormLabel>
                                         <Select
+                                            {...field}
                                             onValueChange={field.onChange}
                                             value={field.value}
                                             defaultValue={field.value}
                                             disabled={loading}
-                                            // {...field}
                                         >
                                             <FormControl>
                                                 <SelectTrigger>
@@ -329,24 +350,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                     </FormItem>
                                 )}
                             />
-                            {/* <FormField
-                                control={form.control}
-                                name="amount"
-                                render={({ field }) => (
-                                    <FormItem className="w-1/3">
-                                        <FormLabel>Amount</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="number"
-                                                disabled={loading}
-                                                placeholder="0"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            /> */}
                             <FormField
                                 control={form.control}
                                 name="images"
@@ -354,7 +357,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                     <FormItem className="w-2/3">
                                         <FileUpload
                                             onChange={field.onChange}
-                                            value={field.value}
+                                            // value={field.value}
+                                            value={[]}
                                             disabled={loading}
                                         />
                                     </FormItem>

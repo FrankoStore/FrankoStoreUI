@@ -12,9 +12,9 @@ export const BurgerIcon: React.FC<IconPropsType> = (props) => {
             stroke={fill}
             xmlns="http://www.w3.org/2000/svg"
         >
-            <path d="M1 1H21" stroke-width="2" stroke-linecap="round" />
-            <path d="M1 9H21" stroke-width="2" stroke-linecap="round" />
-            <path d="M1 17H21" stroke-width="2" stroke-linecap="round" />
+            <path d="M1 1H21" strokeWidth="2" strokeLinecap="round" />
+            <path d="M1 9H21" strokeWidth="2" strokeLinecap="round" />
+            <path d="M1 17H21" strokeWidth="2" strokeLinecap="round" />
         </svg>
     );
 };

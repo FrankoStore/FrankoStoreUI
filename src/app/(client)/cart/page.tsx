@@ -2,7 +2,8 @@ import Link from "next/link";
 
 import { URLS } from "@/lib/constants";
 
-import { AmountCounter } from "./_components/AmountCounter/AmountCounter";
+import OverallPrice from "./_components/OverallPrice/OverallPrice";
+import ProductsList from "./_components/ProductsList/ProductsList";
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,60 +24,10 @@ const CartPage = () => {
                         Всього
                     </p>
                 </div>
-                <div className="contents">
-                    <div className="flex gap-[80px] mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <div className="w-[124px] aspect-[124/152] bg-[#F0EFEF]" />
-                        <div>
-                            <p className="font-medium text-[17px]">
-                                Екоторба “Сlassic”
-                            </p>
-                            <p className="text-[17px] mt-2">125 грн</p>
-                        </div>
-                    </div>
-                    <div className="flex justify-end mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <AmountCounter />
-                    </div>
-                    <div className="flex justify-end mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <p>125 грн</p>
-                    </div>
-                </div>
-                <div className="contents">
-                    <div className="flex gap-[80px] mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <div className="w-[124px] aspect-[124/152] bg-[#F0EFEF]" />
-                        <div>
-                            <p className="font-medium text-[17px]">
-                                Екоторба “Сlassic”
-                            </p>
-                            <p className="text-[17px] mt-2">125 грн</p>
-                        </div>
-                    </div>
-                    <div className="flex justify-end mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <AmountCounter />
-                    </div>
-                    <div className="flex justify-end mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <p>125 грн</p>
-                    </div>
-                </div>
-                <div className="contents">
-                    <div className="flex gap-[80px] mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <div className="w-[124px] aspect-[124/152] bg-[#F0EFEF]" />
-                        <div>
-                            <p className="font-medium text-[17px]">
-                                Екоторба “Сlassic”
-                            </p>
-                            <p className="text-[17px] mt-2">125 грн</p>
-                        </div>
-                    </div>
-                    <div className="flex justify-end mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <AmountCounter />
-                    </div>
-                    <div className="flex justify-end mt-[35px] pb-[35px] border-b-[1px] border-b-black">
-                        <p>125 грн</p>
-                    </div>
-                </div>
+                <ProductsList />
             </div>
             <div className="ml-auto mt-[50px] flex flex-col items-end gap-[30px] max-w-[450px] w-full">
-                <p className="font-medium text-[23px]">До оплати: 1 225 грн</p>
+                <OverallPrice />
                 <div className="border-[1px] border-black flex w-full h-[53px] rounded-[10px] overflow-hidden">
                     <Input
                         className="border-none h-full w-1/2 py-2 px-3 text-[16px] placeholder:text-[#A1A1A1]"

@@ -6,7 +6,6 @@ export const CREATE_CATEGORY = gql`
     ) {
         createProductCategory(productCategory: $productCategory) {
             name
-            id
         }
     }
 `;

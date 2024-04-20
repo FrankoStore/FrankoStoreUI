@@ -1,48 +1,7 @@
-import {
-    BenefitsSection,
-    HeroSection,
-    ProductSection,
-} from "./_components/sections";
+import { BenefitsSection, HeroSection } from "./_components/sections";
+import PopularProducts from "./_components/sections/ProductSection/PopularProducts";
+import RecommendedProducts from "./_components/sections/ProductSection/RecommendedProducts";
 import { Container, WideContainer } from "@/components/shared";
-
-const cards = [
-    {
-        id: "1",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "2",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "3",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "4",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "5",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "6",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-];
 
 export default function Home() {
     return (
@@ -51,17 +10,8 @@ export default function Home() {
                 <HeroSection />
             </WideContainer>
             <Container>
-                <ProductSection
-                    items={cards}
-                    title="популярне"
-                    buttonText="Переглянути всі товари"
-                    overrideContainerStyle="mt-[160px]"
-                />
-                <ProductSection
-                    items={cards}
-                    title="рекомендуємо"
-                    overrideContainerStyle="mt-[160px]"
-                />
+                <PopularProducts />
+                <RecommendedProducts />
                 <BenefitsSection overrideContainerStyle="mt-[180px]" />
             </Container>
         </>

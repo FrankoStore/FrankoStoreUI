@@ -30,7 +30,7 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
     columns,
-    data,
+    data = [],
     searchKey,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -41,7 +41,6 @@ export function DataTable<TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
-
         state: {
             columnFilters,
         },

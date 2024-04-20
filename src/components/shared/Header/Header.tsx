@@ -16,7 +16,7 @@ const navigationLinks = [
         title: "Про нас",
     },
     {
-        path: URLS.ABOUT,
+        path: URLS.CONTACTS,
         title: "Контакти",
     },
     {
@@ -50,7 +50,9 @@ export const Header = () => {
             <header className="header-grid h-[111px] items-center justify-between">
                 <div className="flex gap-9 items-center">
                     <HeaderMenu />
-                    <LogoIcon />
+                    <Link href={URLS.HOME}>
+                        <LogoIcon />
+                    </Link>
                 </div>
                 <nav className="justify-self-center flex gap-[65px]">
                     {navigationLinks.map((link, index) => {

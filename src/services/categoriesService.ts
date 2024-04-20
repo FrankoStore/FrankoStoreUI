@@ -1,19 +1,18 @@
 import { CREATE_CATEGORY } from "@/api/mutations/createCategory";
 import { UPDATE_CATEGORY_NAME } from "@/api/mutations/updateCategoryName";
 import { GET_CATEGORIES } from "@/api/queries/getCategories";
+import { ICategory } from "@/types/Category.types";
 import { useMutation, useQuery } from "@apollo/client";
 
 export const useGetCategoriesQuery = () => {
     const { loading, error, data } = useQuery(GET_CATEGORIES);
 
-    const categories = data?.getProductCategories;
+    const categories: ICategory[] = data?.getProductCategories;
 
     return { data: categories, isLoading: loading, error };
 };
 
-export const useGetCategoryByIdQuery = (id: number | null) => {
-    if (id === null) return { data: [] };
-
+export const useGetCategoryByIdQuery = (id: number) => {
     const { loading, error, data } = useQuery(GET_CATEGORIES, {
         variables: { findOptions: { ids: id } },
     });

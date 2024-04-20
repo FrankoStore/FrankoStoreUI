@@ -1,29 +1,14 @@
+"use client";
+
 import { AmountCounter, ProductSection, ProductSlider } from "./_components";
-import React from "react";
+import { useGetProductsWithOptions } from "@/services/productService";
+import React, { useState } from "react";
 
-import { Container, ProductCardList } from "@/components/shared";
+import { useCart } from "@/hooks/use-cart";
+
+import { Container } from "@/components/shared";
+import ProductCardSkeleton from "@/components/shared/ProductCard/ProductCardSkeleton";
 import { Button } from "@/components/ui/button";
-
-const cards = [
-    {
-        id: "1",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "2",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-    {
-        id: "3",
-        image: "",
-        title: 'Екоторба “Сlassic"',
-        price: "250 грн",
-    },
-];
 
 const images = ["ad", "add", "ada"];
 
@@ -57,22 +42,27 @@ const Product: React.FC<ProductPagePropsType> = (props) => {
         params: { id },
     } = props;
 
+    const { data, isLoading } = useGetProductsWithOptions({ ids: [+id] });
+    const [quantity, setQuantity] = useState(1);
+    const { addProduct } = useCart();
+    const { data: products, isLoading: isProductsLoading } =
+        useGetProductsWithOptions({
+            take: 3,
+        });
+
+    if (isLoading) return null;
+
+    const { name, description, retailPrice } = data[0];
     return (
         <Container>
             <div className="flex w-[85%] mx-auto gap-[60px]">
                 <ProductSlider images={images} overrideContainerStyle="w-1/2" />
                 <div className="w-1/2 flex flex-col">
-                    <h3 className="text-[23px] font-semibold">
-                        Екоторба “Сlassic”
-                    </h3>
-                    <h4 className="text-[23px] font-semibold">125 грн</h4>
-                    <p className="text-[15px] mt-[20px]">
-                        Легка та зручна еко-торба з оригінальним принтом –
-                        чудовий та необхідний кожному аксесуар. Придбайте на
-                        подарунок для всієї родини чи як сувенір для гостей
-                        нашого міста, стильну та якісну річ! Еко-торба – це
-                        модно! Будь у тренді!
-                    </p>
+                    <h3 className="text-[23px] font-semibold">{name}</h3>
+                    <h4 className="text-[23px] font-semibold">
+                        {retailPrice} грн
+                    </h4>
+                    <p className="text-[15px] mt-[20px]">{description}</p>
                     <p className="text-[15px] mt-[7px]">
                         <b className="font-semibold">Від 10</b> одиниць товару
                         <b className="font-semibold">5% знижки!</b>
@@ -91,19 +81,36 @@ const Product: React.FC<ProductPagePropsType> = (props) => {
                     </div>
                     <div className="mt-6">
                         <p className="font-semibold text-[17px]">Кількість:</p>
-                        <AmountCounter overrideContainerStyle="mt-3" />
+                        <AmountCounter
+                            overrideContainerStyle="mt-3"
+                            value={quantity}
+                            onChange={setQuantity}
+                        />
                     </div>
                     <div className="flex-1 flex items-end gap-[23px] mt-[10px]">
                         <Button>Купити зараз</Button>
-                        <Button variant="outline">Додати в кошик</Button>
+                        <Button
+                            onClick={() => addProduct({ ...data[0], quantity })}
+                            variant="outline"
+                        >
+                            Додати в кошик
+                        </Button>
                     </div>
                 </div>
             </div>
-            <ProductSection
-                items={cards}
-                title="вам можуть сподобатись"
-                overrideContainerStyle="mt-[100px]"
-            />
+            {isProductsLoading ? (
+                <div className="grid card-list-grid-columns justify-between">
+                    {Array.from({ length: 3 }).map((_: any, idx: number) => (
+                        <ProductCardSkeleton key={idx} />
+                    ))}
+                </div>
+            ) : (
+                <ProductSection
+                    items={products}
+                    title="вам можуть сподобатись"
+                    overrideContainerStyle="mt-[100px]"
+                />
+            )}
         </Container>
     );
 };
