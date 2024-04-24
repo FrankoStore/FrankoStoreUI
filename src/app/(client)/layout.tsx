@@ -25,7 +25,7 @@ export default function RootLayout({
     }, []);
 
     return (
-        <div className={cn(inter.className)}>
+        <div className={cn(inter.className, "min-h-screen flex flex-col")}>
             <Header />
             <main className="flex-1">{children}</main>
             <Footer overrideContainerStyle="mt-[112px]" />

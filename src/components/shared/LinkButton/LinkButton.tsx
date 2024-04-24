@@ -15,17 +15,15 @@ export const LinkButton: React.FC<LinkButtonPropsType> = (props) => {
     const { children, active = false, ...rest } = props;
 
     return (
-        <>
-            <Button
-                variant="link"
-                size="link"
-                className={cn({
-                    underline: active,
-                })}
-                {...rest}
-            >
-                {children}
-            </Button>
-        </>
+        <Button
+            variant="link"
+            size="link"
+            className={cn({
+                underline: active,
+            })}
+            {...rest}
+        >
+            {children}
+        </Button>
     );
 };

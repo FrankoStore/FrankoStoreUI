@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 
 import { ApolloClientProvider } from "@/components/providers/ApolloClientProvider";
+import AuthProvider from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 export const metadata: Metadata = {
@@ -18,15 +19,17 @@ export default function RootLayout({
     return (
         <html lang="ua">
             <ApolloClientProvider>
-                <body className={cn("flex flex-col min-h-screen")}>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                    >
-                        {children}
-                    </ThemeProvider>
-                </body>
+                <AuthProvider>
+                    <body className={cn("flex flex-col min-h-screen")}>
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="system"
+                            enableSystem
+                        >
+                            {children}
+                        </ThemeProvider>
+                    </body>
+                </AuthProvider>
             </ApolloClientProvider>
         </html>
     );

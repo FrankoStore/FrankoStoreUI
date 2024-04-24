@@ -10,7 +10,8 @@ import { onError } from "@apollo/client/link/error";
 import { redirect } from "next/navigation";
 
 const authLink = setContext((_, { headers }) => {
-    const token = JSON.parse(localStorage.getItem("accessToken") ?? "");
+    const lsToken = localStorage.getItem("accessToken");
+    const token = lsToken ? JSON.parse(lsToken) : "";
     return {
         headers: {
             ...headers,

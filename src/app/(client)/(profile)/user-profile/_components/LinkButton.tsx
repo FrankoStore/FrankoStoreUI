@@ -15,7 +15,7 @@ export const LinkButton: React.FC<LinkButtonPropsType> = (props) => {
         <Button
             size="link"
             variant="lightLink"
-            onClick={() => onClick()}
+            onClick={onClick}
             className={cn({ "font-medium": isActive })}
         >
             {title}

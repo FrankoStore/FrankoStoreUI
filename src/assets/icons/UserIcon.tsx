@@ -2,13 +2,13 @@ import { IconPropsType } from "@/types/IconPropsType";
 import React from "react";
 
 export const UserIcon: React.FC<IconPropsType> = (props) => {
-    const { width = "14", height = "21", fill = "black" } = props;
+    const { width = "21", height = "21", fill = "black" } = props;
 
     return (
         <svg
             width={width}
             height={height}
-            viewBox="0 0 14 21"
+            viewBox="0 0 21 21"
             fill={fill}
             xmlns="http://www.w3.org/2000/svg"
         >

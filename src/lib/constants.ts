@@ -10,6 +10,7 @@ export enum URLS {
     DISCOUNT = "/benefits",
     CHECKOUT = "/checkout",
     UNIVERCITY = "https://lnu.edu.ua/",
+    ADMIN = "/admin",
 }
 
 // @ts-ignore

@@ -23,10 +23,11 @@ export const HeroSection = () => {
                     src={homeHeroOuterImage}
                     className="w-full h-full object-cover"
                     alt="Hero outer"
+                    priority
                 />
                 <Image
                     src={homeHeroInnerImage}
-                    className="absolute "
+                    className="absolute"
                     alt="Hero inner"
                 />
             </div>
