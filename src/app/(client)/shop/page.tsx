@@ -2,7 +2,7 @@
 
 import { useGetCategoriesQuery } from "@/services/categoriesService";
 import { useGetProductsWithOptions } from "@/services/productService";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import useUrlParams from "@/hooks/use-url-params";
 
@@ -18,15 +18,71 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
+const sortOptions = [
+    {
+        value: "default",
+        label: "Сортування за замовчуванням",
+    },
+    {
+        value: "popularity",
+        label: "Сортування за популярністю",
+    },
+    {
+        value: "latest",
+        label: "Сортування за останніми",
+    },
+    {
+        value: "fromCheapest",
+        label: "Сортування за ціною: від нижчої до вищої",
+    },
+    {
+        value: "fromExpensive",
+        label: "Сортування за ціною: від вищої до нижчої",
+    },
+] as const;
+
+type SortOptionValue = (typeof sortOptions)[number]["value"];
+
 const Shop = () => {
-    const [selectedFilter, setSelectedFilter] = useState<string>("default");
-    const { selectedQuery, setUrlParams } = useUrlParams("category");
+    const [selectedFilter, setSelectedFilter] =
+        useState<SortOptionValue>("default");
+    const [selectedCategory, setSelectedCategory] = useUrlParams("category");
 
     const { data: categories } = useGetCategoriesQuery();
     const { data: products, isLoading } = useGetProductsWithOptions({
         take: 9,
-        categories: selectedQuery ? { name: selectedQuery } : undefined,
+        categories: selectedCategory ? { name: selectedCategory } : undefined,
     });
+    const [displayedProducts, setDisplayedProducts] = useState(products);
+
+    useEffect(() => {
+        let sortedProducts;
+        switch (selectedFilter) {
+            case "fromCheapest":
+                sortedProducts = products?.toSorted(
+                    (firstProduct, secondProduct) =>
+                        firstProduct.retailPrice - secondProduct.retailPrice,
+                );
+                break;
+            case "fromExpensive":
+                sortedProducts = products?.toSorted(
+                    (firstProduct, secondProduct) =>
+                        secondProduct.retailPrice - firstProduct.retailPrice,
+                );
+                break;
+            case "default":
+            case "latest":
+            case "popularity":
+            default:
+                sortedProducts = [...(products ?? [])];
+                break;
+        }
+        setDisplayedProducts(sortedProducts);
+    }, [selectedFilter]);
+
+    useEffect(() => {
+        setDisplayedProducts(products);
+    }, [products]);
 
     return (
         <Container className="mt-[65px] flex">
@@ -35,9 +91,9 @@ const Shop = () => {
                     return (
                         <LinkButton
                             onClick={() =>
-                                setUrlParams("category", category.name)
+                                setSelectedCategory("category", category.name)
                             }
-                            active={category.name === selectedQuery}
+                            active={category.name === selectedCategory}
                             key={category.id}
                         >
                             {category.name}
@@ -52,7 +108,7 @@ const Shop = () => {
                     ) : (
                         <Select
                             value={selectedFilter}
-                            onValueChange={(newVal) =>
+                            onValueChange={(newVal: SortOptionValue) =>
                                 setSelectedFilter(newVal)
                             }
                         >
@@ -61,21 +117,14 @@ const Shop = () => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectItem value="default">
-                                        Сортування за замовчуванням
-                                    </SelectItem>
-                                    <SelectItem value="popularity">
-                                        Сортування за популярністю
-                                    </SelectItem>
-                                    <SelectItem value="latest">
-                                        Сортування за останніми
-                                    </SelectItem>
-                                    <SelectItem value="fromCheapest">
-                                        Сортування за ціною: від нижчої до вищої
-                                    </SelectItem>
-                                    <SelectItem value="fromExpensive">
-                                        Сортування за ціною: від вищої до нижчої
-                                    </SelectItem>
+                                    {sortOptions.map((option) => (
+                                        <SelectItem
+                                            value={option.value}
+                                            key={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -93,7 +142,7 @@ const Shop = () => {
                         </div>
                     ) : (
                         <ProductCardList
-                            items={products}
+                            items={displayedProducts}
                             buttonText="Переглянути всі товари"
                             loadMore={() => {}}
                         />

@@ -17,7 +17,7 @@ const useUrlParams = (query?: string) => {
         [searchParams, pathname, router],
     );
 
-    return { selectedQuery, setUrlParams };
+    return [selectedQuery, setUrlParams] as const;
 };
 
 export default useUrlParams;

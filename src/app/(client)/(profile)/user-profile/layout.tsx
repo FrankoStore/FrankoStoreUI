@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { useLogoutModal } from "@/hooks/use-logout-modal";
+
 import { LinkButton } from "./_components/LinkButton";
 import ProtectedRoute from "@/components/providers/ProtectedRoute";
 import { Container } from "@/components/shared";
+import { LogoutModal } from "@/components/shared/LogoutModal/LogoutModal";
 import { Button } from "@/components/ui/button";
 
 enum ProfileLinks {
@@ -23,6 +26,7 @@ const ProfileLayout = ({
 }>) => {
     const pathname = usePathname();
     const router = useRouter();
+    const { setOpen } = useLogoutModal();
 
     const segments = pathname.split("/");
     const lastSegment = segments[segments.length - 1];
@@ -64,10 +68,15 @@ const ProfileLayout = ({
                                 )
                             }
                         />
-                        <LinkButton title="Вийти" onClick={() => {}} />
+                        <LinkButton
+                            title="Вийти"
+                            onClick={() => setOpen(true)}
+                        />
                     </div>
                     <div className="flex-1">{children}</div>
                 </div>
+
+                <LogoutModal />
             </Container>
         </ProtectedRoute>
     );

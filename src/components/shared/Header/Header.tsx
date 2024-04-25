@@ -18,7 +18,6 @@ import {
     AdminDashboardIcon,
     BagIcon,
     LogoIcon,
-    SearchIcon,
     UserIcon,
 } from "@/assets/icons";
 
@@ -42,7 +41,7 @@ export const Header = () => {
     const [loginOpened, setLoginOpened] = useState(false);
     const { user } = useActiveUser();
     const pathname = usePathname();
-    const { selectedQuery, setUrlParams } = useUrlParams("search");
+    const [searchValue, setSearchValue] = useUrlParams("search");
 
     return (
         <Container>
@@ -91,9 +90,9 @@ export const Header = () => {
                 <div className="flex items-center gap-8">
                     {pathname === "/shop" && (
                         <Input
-                            value={selectedQuery ?? ""}
+                            value={searchValue ?? ""}
                             onChange={(e) =>
-                                setUrlParams("search", e.target.value)
+                                setSearchValue("search", e.target.value)
                             }
                             placeholder="Я шукаю..."
                             className="placeholder:opacity-70"
