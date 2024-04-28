@@ -2,13 +2,18 @@ import React from "react";
 
 import { URLS } from "@/lib/constants";
 
-import { Container } from "@/components/shared";
+import {
+    ContactsForm,
+    Container,
+    GoogleMapComponent,
+} from "@/components/shared";
+import ContactsList from "@/components/shared/ContactsList/ContactsList";
 
 const Contacts = () => {
     return (
         <Container>
             <div className="flex  flex-row justify-between p-12">
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-5">
                     <h2 className="uppercase text-[35px] text-darkblue">
                         Написати нам
                     </h2>
@@ -17,7 +22,7 @@ const Contacts = () => {
                         Corrupti deleniti sequi unde repellendus dignissimos sit
                         neque natus fuga officiis impedit.
                     </p>
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-4">
                         <li>
                             <a href="tel:+380983995574">+380983995574</a>
                         </li>
@@ -41,12 +46,11 @@ const Contacts = () => {
                         </li>
                     </ul>
                 </div>
-                <form>form</form>
+                <ContactsForm />
             </div>
-            <div>
-                <h3>Наша адреса</h3>
-                <div>map</div>
-                <address>вул. Університетська 1</address>
+            <div className="grid grid-cols-2 items-start justify-start px-12">
+                <ContactsList />
+                <GoogleMapComponent />
             </div>
         </Container>
     );

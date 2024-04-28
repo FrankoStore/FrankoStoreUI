@@ -1,14 +1,38 @@
+import Image from "next/image";
 import React from "react";
 
 import { Container } from "@/components/shared";
+
+import lnuFront360Img from "@public/lnu-front-360.jpeg";
+import lnuFronImg from "@public/lnu-front.jpeg";
+import lnuTopViewImg from "@public/lnu-top-view.png";
 
 const Benefits = () => {
     return (
         <div className="hero-section-height">
             <Container className="flex justify-center relative h-full">
-                <div className="w-[308px] h-[425px] bg-[#D9D9D9] absolute bottom-[20%] left-0" />
-                <div className="w-[338px] h-[271px] bg-[#D9D9D9] absolute top-[15%] right-0" />
-                <div className="w-[450px] h-[220px] bg-[#D9D9D9] absolute bottom-[5%] right-[15%]" />
+                <Image
+                    src={lnuFront360Img}
+                    alt="LNU front view 360 years"
+                    width={676}
+                    height={614}
+                    className="w-[338px] h-[308px] absolute bottom-[20%] left-0"
+                />
+                <Image
+                    src={lnuFronImg}
+                    alt="LNU front view"
+                    width={676}
+                    height={542}
+                    className="w-[338px] h-[271px] absolute top-[15%] right-0"
+                />
+                <Image
+                    src={lnuTopViewImg}
+                    alt="LNU top view"
+                    width={676}
+                    height={542}
+                    className="w-[338px] h-[271px] absolute right-[15%] bottom-[5%]"
+                />
+
                 <div className="max-w-[550px] w-full mt-[70px]">
                     <h2 className=" text-[55px] text-center uppercase">
                         Отримай вигоду!

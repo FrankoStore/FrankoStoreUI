@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useLogoutModal } from "@/hooks/use-logout-modal";
@@ -9,7 +8,6 @@ import { LinkButton } from "./_components/LinkButton";
 import ProtectedRoute from "@/components/providers/ProtectedRoute";
 import { Container } from "@/components/shared";
 import { LogoutModal } from "@/components/shared/LogoutModal/LogoutModal";
-import { Button } from "@/components/ui/button";
 
 enum ProfileLinks {
     MyOrders = "my-orders",

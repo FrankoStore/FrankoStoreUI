@@ -5,6 +5,7 @@ import React from "react";
 
 import { URLS } from "@/lib/constants";
 
+import { useActiveUser } from "@/hooks/use-active-user";
 import { useCart } from "@/hooks/use-cart";
 
 import { Container } from "@/components/shared";
@@ -16,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const PlaceOrderPage = () => {
     const { products } = useCart();
+    const { user } = useActiveUser();
     return (
         <Container className="pt-[70px]">
             <h2 className="uppercase text-darkblue text-[35px]">
@@ -25,9 +27,17 @@ const PlaceOrderPage = () => {
                 <div className="max-w-[420px] w-full">
                     <p className="font-medium text-[28px]">Платіжні дані</p>
                     <div className="mt-[48px] flex flex-col gap-[30px]">
-                        <Input placeholder="Ім’я та Прізвище" />
-                        <Input placeholder="Телефон" />
-                        <Input placeholder="Електронна пошта" />
+                        <Input
+                            placeholder="Ім’я та Прізвище"
+                            value={
+                                user ? `${user.firstName} ${user.lastName}` : ""
+                            }
+                        />
+                        <Input placeholder="Телефон" value={user?.phone} />
+                        <Input
+                            placeholder="Електронна пошта"
+                            value={user?.email}
+                        />
                     </div>
                 </div>
                 <div className="max-w-[533px] w-full">

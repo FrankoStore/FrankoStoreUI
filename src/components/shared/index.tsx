@@ -8,3 +8,5 @@ export { HeaderMenu } from "./HeaderMenu/HeaderMenu";
 export { LinkButton } from "./LinkButton/LinkButton";
 export { RegisterForm } from "./RegisterForm/RegisterForm";
 export { LoginForm } from "./LoginForm/LoginForm";
+export { ContactsForm } from "./ContactsForm/ContactsForm";
+export { GoogleMapComponent } from "./GoogleMap/GoogleMap";
