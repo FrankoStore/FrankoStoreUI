@@ -2,13 +2,15 @@
 
 import { AmountCounter, ProductSection, ProductSlider } from "./_components";
 import { useGetProductsWithOptions } from "@/services/productService";
+import { redirect } from "next/navigation";
 import React, { useState } from "react";
 
-import { useCart } from "@/hooks/use-cart";
+import { AddProductType, useCart } from "@/hooks/use-cart";
 
 import { Container } from "@/components/shared";
 import ProductCardSkeleton from "@/components/shared/ProductCard/ProductCardSkeleton";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const images = ["ad", "add", "ada"];
 
@@ -37,11 +39,7 @@ const characteristcs = [
     },
 ];
 
-const Product: React.FC<ProductPagePropsType> = (props) => {
-    const {
-        params: { id },
-    } = props;
-
+const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
     const { data, isLoading } = useGetProductsWithOptions({ ids: [+id] });
     const [quantity, setQuantity] = useState(1);
     const { addProduct } = useCart();
@@ -49,8 +47,15 @@ const Product: React.FC<ProductPagePropsType> = (props) => {
         useGetProductsWithOptions({
             take: 3,
         });
+    const { toast } = useToast();
 
     if (isLoading) return null;
+    if (data.length === 0) redirect("/shop");
+
+    const addProductToCart = (product: AddProductType) => {
+        addProduct(product);
+        toast({ title: "Товар успішно додано в корзину" });
+    };
 
     const { name, description, retailPrice } = data[0];
     return (
@@ -90,7 +95,9 @@ const Product: React.FC<ProductPagePropsType> = (props) => {
                     <div className="flex-1 flex items-end gap-[23px] mt-[10px]">
                         <Button>Купити зараз</Button>
                         <Button
-                            onClick={() => addProduct({ ...data[0], quantity })}
+                            onClick={() =>
+                                addProductToCart({ ...data[0], quantity })
+                            }
                             variant="outline"
                         >
                             Додати в кошик

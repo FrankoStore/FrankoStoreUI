@@ -7,3 +7,4 @@ export { InstagramIcon } from "./InstagramIcon";
 export { FacebookIcon } from "./FacebookIcon";
 export { ArrowIcon } from "./ArrowIcon";
 export { AdminDashboardIcon } from "./AdminDashboardIcon";
+export { DeleteIcon } from "./DeleteIcon";

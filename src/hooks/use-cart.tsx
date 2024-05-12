@@ -6,7 +6,7 @@ interface CartProduct extends IProduct {
     quantity: number;
 }
 
-type AddProductType = IProduct & { quantity?: number };
+export type AddProductType = IProduct & { quantity?: number };
 
 export interface Cart {
     products: CartProduct[];
