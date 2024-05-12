@@ -31,7 +31,7 @@ interface UpdateProductData extends CreateProductData {
 }
 
 export const useGetProductsQuery = () => {
-    const { loading, error, data } = useQuery(GET_PRODUCTS_CARDS);
+    const { loading, error, data } = useQuery(GET_PRODUCTS_CARDS, {});
 
     const products = data?.getProducts as IProductCard[];
 
@@ -40,7 +40,7 @@ export const useGetProductsQuery = () => {
 
 export const useGetProductsWithOptions = (options?: IGetProductsOptions) => {
     const { loading, error, data } = useQuery(GET_PRODUCTS_BY_OPTIONS, {
-        variables: { findOptions: options },
+        variables: { findOptions: options ?? {} },
     });
 
     const product = data?.getProducts as IProduct[];

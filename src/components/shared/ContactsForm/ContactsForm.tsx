@@ -1,5 +1,6 @@
 "use client";
 
+import { useSendMessage } from "@/services/messageService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -20,9 +21,16 @@ interface ContactsFormPropsType {
 }
 
 const formSchema = z.object({
-    email: z.string().email().min(1, "Пошта є обов'язковим полем"),
-    phone: z.string().regex(/^\+380\d{9}$/, { message: "Некоректний номер" }),
-    message: z.string().min(5, "Повідомлення має містити мінімум 5 символів"),
+    email: z
+        .string()
+        .email({ message: "Невалідна електронна пошта" })
+        .min(1, "Пошта є обов'язковим полем"),
+    phoneNumber: z
+        .string()
+        .regex(/^\+380\d{9}$/, { message: "Некоректний номер" }),
+    textMessage: z
+        .string()
+        .min(5, "Повідомлення має містити мінімум 5 символів"),
 });
 
 export const ContactsForm: React.FC<ContactsFormPropsType> = ({
@@ -30,13 +38,14 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
 }) => {
     const { toast } = useToast();
     const { user } = useActiveUser();
+    const { sendMessage } = useSendMessage();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: user?.email ?? "",
-            message: "",
-            phone: user?.phone ?? "",
+            textMessage: "",
+            phoneNumber: user?.phone ?? "",
         },
         mode: "onSubmit",
     });
@@ -55,6 +64,7 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
         values: z.infer<typeof formSchema>,
     ) => {
         try {
+            await sendMessage({ variables: { message: values } });
             toast({
                 title: "Дякуємо, що звернулися до нас. Ми розглянемо ваше повідомлення і зв'яжемося з вами якнайшвидше.",
             });
@@ -75,7 +85,10 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
         >
             <p className="text-[35px]">Написати нам</p>
             <Form {...form}>
-                <form className="flex flex-col gap-[35px]">
+                <form
+                    onSubmit={form.handleSubmit(handleSubmit)}
+                    className="flex flex-col gap-[35px]"
+                >
                     <FormField
                         control={form.control}
                         name="email"
@@ -93,7 +106,7 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
                     />
                     <FormField
                         control={form.control}
-                        name="phone"
+                        name="phoneNumber"
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
@@ -108,7 +121,7 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
                     />
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="textMessage"
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>

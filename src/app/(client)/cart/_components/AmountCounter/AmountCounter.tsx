@@ -24,7 +24,7 @@ export const AmountCounter: React.FC<AmountCounterPropsType> = (props) => {
         updateQuantity(productId, counter + 1);
     };
     const decrease = () => {
-        if (counter === 1) return;
+        if (counter === 0) return;
         setCounter((prev) => prev - 1);
         updateQuantity(productId, counter - 1);
     };
