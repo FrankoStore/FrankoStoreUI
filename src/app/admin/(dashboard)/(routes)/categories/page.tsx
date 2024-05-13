@@ -1,11 +1,16 @@
 "use client";
 
 import { useGetCategoriesQuery } from "@/services/categoriesService";
+import { useEffect } from "react";
 
 import { CategoriesClient } from "./components/client";
 
 const CategoriesPage = () => {
-    const { data: categories } = useGetCategoriesQuery();
+    const { data: categories, getCategories } = useGetCategoriesQuery();
+
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     return (
         <div className="flex-col">

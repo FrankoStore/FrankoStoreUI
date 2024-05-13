@@ -2,14 +2,14 @@
 
 import {
     useCreateCategory,
+    useGetCategoriesQuery,
     useUpdateCategoryName,
 } from "@/services/categoriesService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import * as z from "zod";
 
 import { AlertModal } from "@/components/shared/adminDashboard/modals/alert-modal";
@@ -25,6 +25,7 @@ import {
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     name: z.string().min(2),
@@ -41,6 +42,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { toast } = useToast();
+    const { getCategories } = useGetCategoriesQuery();
 
     const title = initialData?.name ? "Edit category" : "Create category";
     const description = initialData?.name
@@ -70,11 +73,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                 await createCategory(data.name);
             }
 
-            router.refresh();
+            toast({ title: toastMessage });
+            await getCategories();
             router.push(`/admin/categories`);
-            toast.success(toastMessage);
         } catch (error: any) {
-            toast.error("Щось пішло не так");
+            toast({ title: "Щось пішло не так" });
         } finally {
             setLoading(false);
         }
@@ -84,13 +87,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         try {
             setLoading(true);
 
-            router.refresh();
+            toast({ title: "Category deleted." });
             router.push(`/admin/categories`);
-            toast.success("Category deleted.");
         } catch (error: any) {
-            toast.error(
-                "Make sure you removed all products using this category first.",
-            );
+            toast({
+                title: "Make sure you removed all products using this category first.",
+            });
         } finally {
             setLoading(false);
             setOpen(false);

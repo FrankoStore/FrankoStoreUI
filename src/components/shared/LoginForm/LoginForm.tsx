@@ -65,7 +65,7 @@ export const LoginForm: React.FC<LoginFormPropsType> = (props) => {
                 (item) => item.message,
             );
             const firstError = errors[0];
-            toast({ description: firstError });
+            toast({ title: firstError });
         }
     }, [form.formState.submitCount]);
 

@@ -3,7 +3,7 @@ import { Fira_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 import ProtectedRoute from "@/components/providers/ProtectedRoute";
-import { ToasterProvider } from "@/components/providers/toast-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
     return (
         <ProtectedRoute>
             <div className={cn(font.className, "flex-1")}>
-                <ToasterProvider />
+                <Toaster />
                 {children}
             </div>
         </ProtectedRoute>

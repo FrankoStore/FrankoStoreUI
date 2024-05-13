@@ -2,14 +2,15 @@ import { CREATE_CATEGORY } from "@/api/mutations/createCategory";
 import { UPDATE_CATEGORY_NAME } from "@/api/mutations/updateCategoryName";
 import { GET_CATEGORIES } from "@/api/queries/getCategories";
 import { ICategory } from "@/types/Category.types";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 export const useGetCategoriesQuery = () => {
-    const { loading, error, data } = useQuery(GET_CATEGORIES);
+    const [getCategories, { loading, error, data }] =
+        useLazyQuery(GET_CATEGORIES);
 
     const categories: ICategory[] = data?.getProductCategories;
 
-    return { data: categories, isLoading: loading, error };
+    return { data: categories, isLoading: loading, error, getCategories };
 };
 
 export const useGetCategoryByIdQuery = (id: number) => {
@@ -23,7 +24,7 @@ export const useGetCategoryByIdQuery = (id: number) => {
 };
 
 export const useUpdateCategoryName = () => {
-    const [updateCategoryMutation, { data, loading, error }] =
+    const [updateCategoryMutation, { loading, error }] =
         useMutation(UPDATE_CATEGORY_NAME);
 
     const updateCategory = async (id: number, newName: string) => {
