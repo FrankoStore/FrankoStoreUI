@@ -1,8 +1,14 @@
 import { LOGIN } from "@/api/mutations/login";
 import { REFRESH } from "@/api/mutations/refresh";
 import { REGISTER } from "@/api/mutations/register";
-import { ILoginUserType, IRegisterUserType } from "@/types/User.types";
+import { RESET_PASSWORD } from "@/api/mutations/resetPassword";
+import {
+    ILoginUserType,
+    IRegisterUserType,
+    IResetPasswordInput,
+} from "@/types/User.types";
 import { useMutation } from "@apollo/client";
+import { useCallback } from "react";
 
 import { useAuthContext } from "@/components/providers/AuthProvider";
 
@@ -52,4 +58,25 @@ export const useRefreshUser = () => {
     };
 
     return { refreshUser };
+};
+
+export const useResetPassword = () => {
+    const [resetPassword, { loading, error }] = useMutation(RESET_PASSWORD);
+    const { setToken } = useAuthContext();
+
+    const submitResetPassword = useCallback(
+        async (resetCredentials: IResetPasswordInput) => {
+            const { data } = await resetPassword({
+                variables: {
+                    resetPasswordInput: resetCredentials,
+                },
+            });
+
+            setToken("accessToken", data.resetPassword.accessToken);
+            setToken("refreshToken", data.resetPassword.refreshToken);
+        },
+        [resetPassword],
+    );
+
+    return { resetPassword: submitResetPassword, loading, error };
 };

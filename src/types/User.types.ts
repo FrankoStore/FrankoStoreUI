@@ -23,3 +23,8 @@ export interface IUserDataType extends Omit<IRegisterUserType, "password"> {
     discountType: IDiscountType | null;
     roles: { id: number; name: string }[];
 }
+
+export interface IResetPasswordInput {
+    oldPassword: string;
+    newPassword: string;
+}
