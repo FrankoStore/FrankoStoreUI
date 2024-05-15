@@ -6,3 +6,17 @@ export interface ICreateProcurementInformationInfo {
     purchasePrice: number;
     supplierId: number;
 }
+
+export interface IProcurementInfo {
+    orderedDate: Date;
+    amount: number;
+    description: string;
+    id: number;
+    purchasePrice: number;
+    product: {
+        id: number;
+    };
+    supplier: {
+        id: number;
+    };
+}

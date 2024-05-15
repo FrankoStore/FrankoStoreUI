@@ -7,8 +7,13 @@ export const GET_PROCUREMENTS = gql`
             amount
             description
             id
-            orderedDate
             purchasePrice
+            product {
+                id
+            }
+            supplier {
+                id
+            }
         }
     }
 `;

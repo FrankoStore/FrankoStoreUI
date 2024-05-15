@@ -23,8 +23,8 @@ export const GET_PRODUCTS = gql`
 `;
 
 export const GET_PRODUCTS_CARDS = gql`
-    query GetProducts {
-        getProducts {
+    query GetProducts($findOptions: FindOptionsProductInput) {
+        getProducts(findOptions: $findOptions) {
             id
             name
             retailPrice

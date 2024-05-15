@@ -7,7 +7,7 @@ import {
 import { Container } from "@/components/shared";
 
 import aboutImg from "@public/aboutUs.png";
-import aboutBottomImg from "@public/aboutUsBottom.png";
+import aboutBottomImg from "@public/aboutUsBottom.webp";
 
 const sliderItems: CarouselItemPropsType[] = [
     {
@@ -84,9 +84,11 @@ const AboutPage = () => {
             <Container className="pt-[150px] flex justify-between items-center pr-12">
                 <div className="max-w-[645px] w-full aspect-[645/351] h-auto">
                     <Image
-                        className="w-full object-cover"
+                        className="w-full object-cover h-[400px]"
                         src={aboutBottomImg}
                         alt="LNU"
+                        width={608}
+                        height={912}
                     />
                 </div>
                 <div className="max-w-[550px] w-full">

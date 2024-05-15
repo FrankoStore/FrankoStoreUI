@@ -10,7 +10,7 @@ import {
     IProductCard,
     SIZE,
 } from "@/types/Product.types";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 interface CreateProductData {
     categories: {
@@ -31,11 +31,19 @@ interface UpdateProductData extends CreateProductData {
 }
 
 export const useGetProductsQuery = () => {
-    const { loading, error, data } = useQuery(GET_PRODUCTS_CARDS, {});
+    const [getProductsCard, { loading, error, data }] = useLazyQuery(
+        GET_PRODUCTS_CARDS,
+        { variables: { findOptions: {} } },
+    );
 
     const products = data?.getProducts as IProductCard[];
 
-    return { data: products, isLoading: loading, error };
+    return {
+        data: products,
+        isLoading: loading,
+        error,
+        getProducts: getProductsCard,
+    };
 };
 
 export const useGetProductsWithOptions = (options?: IGetProductsOptions) => {

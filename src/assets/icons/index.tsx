@@ -8,3 +8,6 @@ export { FacebookIcon } from "./FacebookIcon";
 export { ArrowIcon } from "./ArrowIcon";
 export { AdminDashboardIcon } from "./AdminDashboardIcon";
 export { DeleteIcon } from "./DeleteIcon";
+export { CalendarIcon } from "./CalendarIcon";
+export { ChevronLeftIcon } from "./ChevronLeftIcon";
+export { ChevronRightIcon } from "./ChevronRightIcon";

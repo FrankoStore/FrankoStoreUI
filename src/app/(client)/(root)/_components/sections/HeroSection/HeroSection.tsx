@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import homeHeroInnerImage from "@public/homeHeroInner.png";
+import homeHeroInnerImage from "@public/homeHeroInner.webp";
 import homeHeroOuterImage from "@public/homeHeroOuter.png";
 
 export const HeroSection = () => {
@@ -27,8 +27,10 @@ export const HeroSection = () => {
                 />
                 <Image
                     src={homeHeroInnerImage}
-                    className="absolute"
+                    className="absolute w-[380px] rounded-sm shadow-[inset_0px_0px_10px_10px_rgba(0,0,0,0.7)]"                    
                     alt="Hero inner"
+                    width={1667}
+                    height={2500}
                 />
             </div>
         </>

@@ -1,6 +1,9 @@
 import { CREATE_PROCUMERENT } from "@/api/mutations/createProcurement";
 import { GET_PROCUREMENTS } from "@/api/queries/getProcurements";
-import { ICreateProcurementInformationInfo } from "@/types/Procurement.types";
+import {
+    ICreateProcurementInformationInfo,
+    IProcurementInfo,
+} from "@/types/Procurement.types";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useCallback } from "react";
 
@@ -8,12 +11,11 @@ export const useGetProcurements = () => {
     const [getProcurements, { data, loading, error }] =
         useLazyQuery(GET_PROCUREMENTS);
 
-    throw new Error("ADD TYPE HERE");
-    const procurements = data?.getProcrumentInformations as any[];
+    const procurements = data?.getProcrumentInformations as IProcurementInfo[];
     return { data: procurements, getProcurements, loading, error };
 };
 
-export const createProcurement = () => {
+export const useCreateProcurement = () => {
     const [createProcurement, { loading, data, error }] =
         useMutation(CREATE_PROCUMERENT);
 

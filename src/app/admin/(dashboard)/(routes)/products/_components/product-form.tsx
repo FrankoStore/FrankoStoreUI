@@ -5,11 +5,10 @@ import { useCreateProduct, useUpdateProduct } from "@/services/productService";
 import { IProduct } from "@/types/Product.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Editor } from "primereact/editor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import * as z from "zod";
 
 import { FileUpload } from "@/components/shared/adminDashboard/dropzone";
@@ -33,6 +32,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 
 const sizes = ["L", "M", "S", "XL", "XXL"] as const;
 
@@ -71,13 +71,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     view = "add",
     id,
 }) => {
-    const params = useParams();
     const router = useRouter();
 
     const { createProduct } = useCreateProduct();
     const { updateProduct } = useUpdateProduct();
-    const { data: categories, isLoading: isCategoriesLoading } =
-        useGetCategoriesQuery();
+    const {
+        data: categories,
+        isLoading: isCategoriesLoading,
+        getCategories,
+    } = useGetCategoriesQuery();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -94,6 +96,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         defaultValues: initialData,
     });
 
+    const { toast } = useToast();
+
     const onSubmit = async (data: ProductFormValues) => {
         const requestData = {
             categories: data.categories,
@@ -106,18 +110,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             retailPrice: data.retailPrice,
             images: [],
         };
-        view === "add"
-            ? createProduct(requestData)
-            : updateProduct(id ?? 0, { ...requestData, amount: 10 });
         try {
             setLoading(true);
             // make request
 
+            view === "add"
+                ? await createProduct(requestData)
+                : await updateProduct(id ?? 0, { ...requestData, amount: 10 });
+
+            toast({ title: toastMessage });
             router.push(`/admin/products`);
-            router.refresh();
-            toast.success(toastMessage);
         } catch (error: any) {
-            toast.error("Something went wrong.");
+            toast({ title: "Something went wrong." });
         } finally {
             setLoading(false);
         }
@@ -126,16 +130,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     const onDelete = async () => {
         try {
             setLoading(true);
-            router.refresh();
             router.push(`/admin/products`);
-            toast.success("Product deleted.");
+            toast({ title: "Product deleted." });
         } catch (error: any) {
-            toast.error("Something went wrong.");
+            toast({ title: "Something went wrong." });
         } finally {
             setLoading(false);
             setOpen(false);
         }
     };
+
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     return (
         <>
@@ -317,7 +324,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 name="size"
                                 render={({ field }) => (
                                     <FormItem className="w-1/3">
-                                        <FormLabel>Length</FormLabel>
+                                        <FormLabel>Size</FormLabel>
                                         <Select
                                             {...field}
                                             onValueChange={field.onChange}
