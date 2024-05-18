@@ -48,7 +48,7 @@ const Shop = () => {
         useState<SortOptionValue>("default");
     const [selectedCategory, setSelectedCategory] = useUrlParams("category");
 
-    const { data: categories } = useGetCategoriesQuery();
+    const { data: categories, getCategories } = useGetCategoriesQuery();
     const { data: products, isLoading } = useGetProductsWithOptions({
         take: 9,
         categories: selectedCategory ? { name: selectedCategory } : undefined,
@@ -83,6 +83,10 @@ const Shop = () => {
     useEffect(() => {
         setDisplayedProducts(products);
     }, [products]);
+
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     return (
         <Container className="mt-[65px] flex">

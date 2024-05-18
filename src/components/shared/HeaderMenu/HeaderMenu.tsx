@@ -45,7 +45,12 @@ export const HeaderMenu = () => {
                     {menuItems.map((item, index) => (
                         <React.Fragment key={item.title}>
                             <DropdownMenuItem className="uppercase text-[17px] font-semibold">
-                                <Link href={item.path}>{item.title}</Link>
+                                <Link
+                                    className="w-full h-full"
+                                    href={item.path}
+                                >
+                                    {item.title}
+                                </Link>
                             </DropdownMenuItem>
                             {index !== menuItems.length - 1 && (
                                 <DropdownMenuSeparator />

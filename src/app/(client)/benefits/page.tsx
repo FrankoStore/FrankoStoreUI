@@ -3,34 +3,34 @@ import React from "react";
 
 import { Container } from "@/components/shared";
 
-import lnuFront360Img from "@public/lnu-front-360.jpeg";
-import lnuFronImg from "@public/lnu-front.jpeg";
-import lnuTopViewImg from "@public/lnu-top-view.png";
+import lnuBagImg from "@public/lnu_bag.webp";
+import lnuNotepadImg from "@public/lnu_notepad.webp";
+import lnuStickersImg from "@public/lnu_stickers.webp";
 
 const Benefits = () => {
     return (
         <div className="hero-section-height">
             <Container className="flex justify-center relative h-full">
                 <Image
-                    src={lnuFront360Img}
+                    src={lnuNotepadImg}
                     alt="LNU front view 360 years"
                     width={676}
-                    height={614}
-                    className="w-[338px] h-[308px] absolute bottom-[20%] left-0"
+                    height={714}
+                    className="w-[338px] h-[368px] absolute bottom-[20%] left-0 rounded-sm shadow-lg"
                 />
                 <Image
-                    src={lnuFronImg}
+                    src={lnuStickersImg}
                     alt="LNU front view"
                     width={676}
-                    height={542}
-                    className="w-[338px] h-[271px] absolute top-[15%] right-0"
+                    height={642}
+                    className="w-[338px] h-[341px] absolute top-[15%] right-0 rounded-sm shadow-lg"
                 />
                 <Image
-                    src={lnuTopViewImg}
+                    src={lnuBagImg}
                     alt="LNU top view"
                     width={676}
-                    height={542}
-                    className="w-[338px] h-[271px] absolute right-[15%] bottom-[5%]"
+                    height={642}
+                    className="w-[338px] h-[331px] absolute right-[35%] bottom-[5%] rounded-sm shadow-lg"
                 />
 
                 <div className="max-w-[550px] w-full mt-[70px]">

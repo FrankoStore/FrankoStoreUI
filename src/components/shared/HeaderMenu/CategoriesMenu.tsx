@@ -2,7 +2,7 @@
 
 import { useGetCategoriesQuery } from "@/services/categoriesService";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { URLS } from "@/lib/constants";
 
@@ -16,7 +16,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const CategoriesMenu = () => {
-    const { data } = useGetCategoriesQuery();
+    const { data, getCategories } = useGetCategoriesQuery();
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
     return (
         <DropdownMenuSub>
             <DropdownMenuSubTrigger className="uppercase text-[17px] font-semibold">
@@ -30,6 +35,7 @@ const CategoriesMenu = () => {
                                 <DropdownMenuItem className="uppercase text-[17px] font-semibold">
                                     <Link
                                         href={`${URLS.SHOP}?category=${item.name}`}
+                                        className="w-full h-full"
                                     >
                                         {item.name}
                                     </Link>
