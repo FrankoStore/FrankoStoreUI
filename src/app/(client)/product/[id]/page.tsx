@@ -67,7 +67,10 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
                     <h4 className="text-[23px] font-semibold">
                         {retailPrice} грн
                     </h4>
-                    <p className="text-[15px] mt-[20px]">{description}</p>
+                    <p
+                        className="text-[15px] mt-[20px]"
+                        dangerouslySetInnerHTML={{ __html: description ?? "" }}
+                    />
                     <p className="text-[15px] mt-[7px]">
                         <b className="font-semibold">Від 10</b> одиниць товару
                         <b className="font-semibold">5% знижки!</b>

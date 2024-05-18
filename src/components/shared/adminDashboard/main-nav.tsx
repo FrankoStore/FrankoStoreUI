@@ -20,22 +20,27 @@ export function MainNav({
         {
             href: `/admin/categories`,
             label: "Categories",
-            active: pathname === `/admin/categories`,
+            active: pathname.startsWith(`/admin/categories`),
         },
         {
             href: `/admin/products`,
             label: "Products",
-            active: pathname === `/admin/products`,
+            active: pathname.startsWith(`/admin/products`),
         },
         {
             href: `/admin/orders`,
             label: "Orders",
-            active: pathname === `/admin/orders`,
+            active: pathname.startsWith(`/admin/orders`),
         },
         {
             href: `/admin/procurements`,
             label: "Procurements",
-            active: pathname === `/admin/procurements`,
+            active: pathname.startsWith(`/admin/procurements`),
+        },
+        {
+            href: `/admin/suppliers`,
+            label: "Suppliers",
+            active: pathname.startsWith(`/admin/suppliers`),
         },
         {
             href: "/",

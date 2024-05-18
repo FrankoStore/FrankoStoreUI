@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductColumn, columns } from "./columns";
+import { SupplierColumn, columns } from "./columns";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -9,26 +9,26 @@ import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-interface ProductsClientProps {
-    data: ProductColumn[];
+interface SupplierClientProps {
+    data: SupplierColumn[];
 }
 
-export const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
+export const SuppliersClient: React.FC<SupplierClientProps> = ({ data }) => {
     const router = useRouter();
 
     return (
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Products (${data?.length ?? 0})`}
-                    description="Manage products for your store"
+                    title={`Suppliers (${data?.length ?? 0})`}
+                    description="Manage suppliers for your store"
                 />
-                <Button onClick={() => router.push(`/admin/products/add`)}>
+                <Button onClick={() => router.push(`/admin/suppliers/add`)}>
                     <Plus className="mr-2 h-4 w-4" /> Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable searchKey="name" columns={columns} data={data} />
+            <DataTable searchKey="companyName" columns={columns} data={data} />
         </>
     );
 };

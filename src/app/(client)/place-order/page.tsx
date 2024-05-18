@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React from "react";
 
 import { URLS } from "@/lib/constants";
@@ -18,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 const PlaceOrderPage = () => {
     const { products } = useCart();
     const { user } = useActiveUser();
+
     return (
         <Container className="pt-[70px]">
             <h2 className="uppercase text-darkblue text-[35px]">
@@ -143,7 +143,7 @@ const PlaceOrderPage = () => {
                             0,
                         ) /** + доставка */
                     }
-                    грн
+                    &nbsp;грн
                 </h2>
                 <div className="flex flex-col gap-[23px] mt-[60px]">
                     <RadioGroup className="gap-[23px]">
@@ -177,7 +177,7 @@ const PlaceOrderPage = () => {
                         </div>
                     </RadioGroup>
                     <div className="flex items-center gap-4 ">
-                        <Checkbox id="personal-data" />
+                        <Checkbox id="personal-data" required />
                         <label
                             htmlFor="personal-data"
                             className="text-[15px] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
@@ -189,9 +189,12 @@ const PlaceOrderPage = () => {
                     </div>
                 </div>
             </div>
-            <Button className="max-w-[450px] w-full mt-[60px]">
-                <Link href={URLS.CHECKOUT}>Оформити замовлення</Link>
+            <Button type="submit" className="max-w-[450px] w-full mt-[60px]">
+                Оформити замовлення
             </Button>
+            {/* <Button className="max-w-[450px] w-full mt-[60px]">
+                <Link href={URLS.CHECKOUT}>Оформити замовлення</Link>
+            </Button> */}
         </Container>
     );
 };
