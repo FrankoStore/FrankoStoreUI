@@ -38,7 +38,10 @@ export const HeaderMenu = () => {
                     <BurgerIcon />
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-[480px] px-3">
+            <DropdownMenuContent
+                align="start"
+                className="w-[360px] lg:w-[480px] px-3"
+            >
                 <DropdownMenuGroup className="mt-5">
                     <CategoriesMenu />
                     <DropdownMenuSeparator />

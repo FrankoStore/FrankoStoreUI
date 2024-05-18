@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterPropsType> = (props) => {
     return (
         <footer
             className={cn(
-                "bg-darkblue py-[67px]",
+                "bg-darkblue py-12 lg:py-[67px]",
                 overrideContainerStyle,
             )}
         >
@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterPropsType> = (props) => {
                     <LogoIcon fill="#fff" />
                     <Image className="mt-5" src={LNULogo} alt="LNU image" />
                 </div>
-                <div className="flex gap-[165px]">
+                <div className="flex gap-28 lg:gap-[165px]">
                     <div className="flex flex-col gap-5">
                         {navigationItems.map((link, index) => {
                             const key = `${link.title}-${index}`;
