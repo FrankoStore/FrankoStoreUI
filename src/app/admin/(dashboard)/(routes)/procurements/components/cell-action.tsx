@@ -1,8 +1,8 @@
 "use client";
 
-import { CategoryColumn } from "./columns";
+import { ProcurementColumn } from "./columns";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -17,12 +17,11 @@ import {
 } from "@/components/ui/dropdown-menuAdmin";
 
 interface CellActionProps {
-    data: CategoryColumn;
+    data: ProcurementColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     const router = useRouter();
-    const params = useParams();
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -41,9 +40,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         }
     };
 
-    const onCopy = (id: string) => {
-        navigator.clipboard.writeText(id);
-        toast.success("Category ID copied to clipboard.");
+    const onCopy = (id: number) => {
+        navigator.clipboard.writeText(String(id));
+        toast.success("Procurement ID copied to clipboard.");
     };
 
     return (

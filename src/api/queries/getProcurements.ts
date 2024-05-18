@@ -10,9 +10,11 @@ export const GET_PROCUREMENTS = gql`
             purchasePrice
             product {
                 id
+                name
             }
             supplier {
                 id
+                companyName
             }
         }
     }

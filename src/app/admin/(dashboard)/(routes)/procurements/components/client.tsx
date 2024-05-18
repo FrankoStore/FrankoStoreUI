@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryColumn, columns } from "./columns";
+import { ProcurementColumn, columns } from "./columns";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -9,11 +9,13 @@ import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-interface CategoriesClientProps {
-    data: CategoryColumn[];
+interface ProcurementClientProps {
+    data: ProcurementColumn[];
 }
 
-export const CategoriesClient: React.FC<CategoriesClientProps> = ({ data }) => {
+export const ProcurementsClient: React.FC<ProcurementClientProps> = ({
+    data,
+}) => {
     const router = useRouter();
 
     return (
@@ -28,7 +30,7 @@ export const CategoriesClient: React.FC<CategoriesClientProps> = ({ data }) => {
                 </Button>
             </div>
             <Separator />
-            <DataTable searchKey="name" columns={columns} data={data} />
+            <DataTable searchKey="productName" columns={columns} data={data} />
         </>
     );
 };

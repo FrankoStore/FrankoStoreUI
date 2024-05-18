@@ -1,6 +1,9 @@
 "use client";
 
-import { useCreateProcurement } from "@/services/procurementService";
+import {
+    useCreateProcurement,
+    useUpdateProcurement,
+} from "@/services/procurementService";
 import { useGetProductsQuery } from "@/services/productService";
 import { useGetSuppliers } from "@/services/supplierService";
 import { IProcurementInfo } from "@/types/Procurement.types";
@@ -38,7 +41,7 @@ import { useToast } from "@/components/ui/use-toast";
 const formSchema = z.object({
     amount: z.coerce.number().min(1),
     description: z.string().min(1),
-    orderedDate: z.date(),
+    orderedDate: z.string().or(z.date()),
     productId: z.string(),
     purchasePrice: z.coerce.number(),
     supplierId: z.string(),
@@ -57,11 +60,8 @@ export const ProcurementForm: React.FC<ProcurementFormProps> = ({
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const {
-        data: products,
-        isLoading: isProductsLoading,
-        getProducts,
-    } = useGetProductsQuery();
+    const { data: products, getProducts } = useGetProductsQuery();
+    const { updateProcurement } = useUpdateProcurement();
     const { getSuppliers, data: suppliers } = useGetSuppliers();
 
     const title = initialData ? "Edit Procurement" : "Create Procurement";
@@ -79,36 +79,37 @@ export const ProcurementForm: React.FC<ProcurementFormProps> = ({
 
     const form = useForm<ProcurementFormValues>({
         resolver: zodResolver(formSchema),
-        // @ts-ignore
-        values: initialData || undefined,
-        defaultValues: {
-            amount: 100,
-            purchasePrice: 100,
-            description: "<b>strong</b>",
-        },
+        values: initialData
+            ? {
+                  productId: initialData?.product.name,
+                  supplierId: initialData?.supplier.companyName,
+                  amount: initialData?.amount,
+                  description: initialData.description,
+                  orderedDate: initialData.orderedDate,
+                  purchasePrice: initialData.purchasePrice,
+              }
+            : undefined,
     });
 
     const onSubmit = async (data: ProcurementFormValues) => {
         try {
             setLoading(true);
 
+            const procurementData = {
+                ...data,
+                orderedDate: new Date(data.orderedDate),
+                productId:
+                    products.find((product) => product.name === data.productId)
+                        ?.id ?? 0,
+                supplierId:
+                    suppliers.find(
+                        (supplier) => supplier.companyName === data.supplierId,
+                    )?.id ?? 0,
+            };
             if (initialData) {
-                // await updateCategory(initialData.id, data.name);
+                await updateProcurement(initialData.id, procurementData);
             } else {
-                await createProcurement({
-                    ...data,
-                    orderedDate: new Date(data.orderedDate),
-                    productId:
-                        products.find(
-                            (product) => product.name === data.productId,
-                        )?.id ?? 0,
-                    purchasePrice: data.purchasePrice,
-                    supplierId:
-                        suppliers.find(
-                            (supplier) =>
-                                supplier.companyName === data.supplierId,
-                        )?.id ?? 0,
-                });
+                await createProcurement(procurementData);
             }
 
             toast({ title: toastMessage });
@@ -180,7 +181,7 @@ export const ProcurementForm: React.FC<ProcurementFormProps> = ({
                                             disabled={loading}
                                             placeholder="Amount"
                                             type="number"
-                                            required
+                                            required={!!initialData}
                                             {...field}
                                         />
                                     </FormControl>
@@ -198,6 +199,7 @@ export const ProcurementForm: React.FC<ProcurementFormProps> = ({
                                     <Select
                                         disabled={loading}
                                         onValueChange={field.onChange}
+                                        {...field}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
@@ -237,7 +239,7 @@ export const ProcurementForm: React.FC<ProcurementFormProps> = ({
                                             disabled={loading}
                                             placeholder="Enter a price"
                                             type="number"
-                                            required
+                                            required={!!initialData}
                                             {...field}
                                         />
                                     </FormControl>
@@ -255,6 +257,7 @@ export const ProcurementForm: React.FC<ProcurementFormProps> = ({
                                     <Select
                                         disabled={loading}
                                         onValueChange={field.onChange}
+                                        {...field}
                                     >
                                         <FormControl>
                                             <SelectTrigger>

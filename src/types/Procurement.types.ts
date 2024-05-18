@@ -15,8 +15,21 @@ export interface IProcurementInfo {
     purchasePrice: number;
     product: {
         id: number;
+        name: string;
     };
     supplier: {
         id: number;
+        companyName: string;
     };
+}
+
+export interface IUpdateProcurementInfo {
+    amount?: number;
+    deliveredDate?: Date;
+    description?: string;
+    isDelivered?: boolean;
+    orderedDate?: Date;
+    purchasePrice?: number;
+    productId?: number;
+    supplierId?: number;
 }

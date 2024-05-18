@@ -1,8 +1,10 @@
 import { CREATE_PROCUMERENT } from "@/api/mutations/createProcurement";
+import { UPDATE_PROCUREMENT } from "@/api/mutations/updateProcurement";
 import { GET_PROCUREMENTS } from "@/api/queries/getProcurements";
 import {
     ICreateProcurementInformationInfo,
     IProcurementInfo,
+    IUpdateProcurementInfo,
 } from "@/types/Procurement.types";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useCallback } from "react";
@@ -34,4 +36,25 @@ export const useCreateProcurement = () => {
         data,
         error,
     };
+};
+
+export const useUpdateProcurement = () => {
+    const [updateProcurementMutation, { loading, error }] =
+        useMutation(UPDATE_PROCUREMENT);
+
+    const updateProcurement = useCallback(
+        async (id: number, data: IUpdateProcurementInfo) => {
+            await updateProcurementMutation({
+                variables: {
+                    updateProcurementInformationId: id,
+                    procurementInformation: {
+                        ...data,
+                    },
+                },
+            });
+        },
+        [updateProcurementMutation],
+    );
+
+    return { updateProcurement, loading, error };
 };
