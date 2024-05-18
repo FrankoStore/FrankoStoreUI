@@ -19,7 +19,7 @@ export const ProductSection: React.FC<ProductSectionPropsType> = (props) => {
     return (
         <div className={overrideContainerStyle}>
             {!!title && (
-                <h3 className="uppercase text-[55px] text-center text-darkblue">
+                <h3 className="uppercase text-[44px] lg:text-[55px] text-center text-darkblue">
                     {title}
                 </h3>
             )}
@@ -27,7 +27,7 @@ export const ProductSection: React.FC<ProductSectionPropsType> = (props) => {
                 items={items}
                 buttonText={buttonText}
                 loadMore={() => {}}
-                overrideContainerStyle="mt-[74px]"
+                overrideContainerStyle="mt-[56px] lg:mt-[74px]"
             />
         </div>
     );

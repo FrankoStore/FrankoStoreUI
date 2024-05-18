@@ -21,7 +21,7 @@ const RecommendedProducts = () => {
             items={products}
             title="популярне"
             buttonText="Переглянути всі товари"
-            overrideContainerStyle="mt-[160px]"
+            overrideContainerStyle="mt-[120px] lg:mt-[160px]"
         />
     );
 };

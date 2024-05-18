@@ -12,11 +12,11 @@ export const BenefitsSection: React.FC<BenefitsSectionPropsType> = (props) => {
         <div className={overrideContainerStyle}>
             <div className="flex items-center gap-[50px]">
                 <ArrowRight size="70" className="stroke-darkblue" />
-                <h3 className="uppercase text-[55px] text-darkblue font-medium">
+                <h3 className="uppercase text-[46px] lg:text-[55px] text-darkblue font-medium">
                     Отримай вигоду!
                 </h3>
             </div>
-            <div className="mt-[89px] flex">
+            <div className="mt-[72px] lg:mt-[89px] flex">
                 <div className="w-1/2 font-[200]">
                     <p>{"(система лояльності)"}</p>
                 </div>
