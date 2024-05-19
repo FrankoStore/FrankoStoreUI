@@ -15,6 +15,8 @@ import {
     DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { ListItemIcon } from "@/assets/icons";
+
 const CategoriesMenu = () => {
     const { data, getCategories } = useGetCategoriesQuery();
 
@@ -24,7 +26,8 @@ const CategoriesMenu = () => {
 
     return (
         <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="uppercase text-[17px] font-semibold">
+            <DropdownMenuSubTrigger className="inline-flex items-center gap-2 w-full uppercase text-[17px] font-semibold">
+                <ListItemIcon width="16" height="16" fill="currentColor" />
                 Категорії
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>

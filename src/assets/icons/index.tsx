@@ -11,3 +11,7 @@ export { DeleteIcon } from "./DeleteIcon";
 export { CalendarIcon } from "./CalendarIcon";
 export { ChevronLeftIcon } from "./ChevronLeftIcon";
 export { ChevronRightIcon } from "./ChevronRightIcon";
+export { DiscountIcon } from "./DiscountIcon";
+export { StoreIcon } from "./StoreIcon";
+export { UserConfigIcon } from "./UserConfigIcon";
+export { ListItemIcon } from "./ListItemIcon";
