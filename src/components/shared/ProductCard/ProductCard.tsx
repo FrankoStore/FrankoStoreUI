@@ -30,24 +30,21 @@ export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
             className={overrideCardContainerStyle}
             onClick={() => addProduct(product)}
         >
-            <div className="w-full aspect-[307/377] cursor-pointer">
-                <Image
-                    src={prodImg}
-                    width={250}
-                    height={250}
-                    alt="img"
-                    className="w-full h-full"
-                />
-            </div>
-            <Link
-                href={`/product/${id}`}
-                className="text-center w-full block text-[17px] mt-[25px] font-semibold"
-            >
-                {name}
+            <Link href={`/product/${id}`}>
+                    <Image
+                        src={prodImg}
+                        width={250}
+                        height={250}
+                        alt="product"
+                        className="w-full aspect-[307/377]"
+                    />
+                <p className="text-center w-full block text-[17px] mt-[25px] font-semibold">
+                    {name}
+                </p>
+                <p className="w-full text-center text-[17px] font-light mt-[5px]">
+                    {retailPrice} грн
+                </p>
             </Link>
-            <p className="w-full text-center text-[17px] font-light mt-[5px]">
-                {retailPrice} грн
-            </p>
         </div>
     );
 };
