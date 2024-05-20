@@ -12,12 +12,12 @@ import ContactsList from "@/components/shared/ContactsList/ContactsList";
 const Contacts = () => {
     return (
         <Container>
-            <div className="flex  flex-row justify-between p-12">
+            <div className="flex flex-row justify-between gap-3 lg:gap-0 p-6 lg:p-12">
                 <div className="flex flex-col gap-5">
-                    <h2 className="uppercase text-[35px] text-darkblue">
+                    <h2 className="uppercase text-[28px] lg:text-[35px] text-darkblue">
                         Написати нам
                     </h2>
-                    <p className="max-w-[500px]">
+                    <p className="max-w-[380px] lg:max-w-[500px]">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Corrupti deleniti sequi unde repellendus dignissimos sit
                         neque natus fuga officiis impedit.
@@ -48,7 +48,7 @@ const Contacts = () => {
                 </div>
                 <ContactsForm />
             </div>
-            <div className="grid grid-cols-2 items-start justify-start px-12">
+            <div className="grid grid-cols-2 items-start justify-start px-6 lg:px-12">
                 <ContactsList />
                 <GoogleMapComponent />
             </div>

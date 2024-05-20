@@ -79,7 +79,7 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
     return (
         <div
             className={cn(
-                "grid w-full max-w-lg  gap-4 border bg-background shadow-lg sm:rounded-lg sm:max-w-[580px] rounded-sm p-4",
+                "grid w-full gap-4 border bg-background shadow-lg sm:rounded-lg max-w-[420px] lg:max-w-[580px] rounded-sm p-4",
                 overrideContainerStyles,
             )}
         >
@@ -98,7 +98,7 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
                                     <Input
                                         {...field}
                                         placeholder="example@gmail.com"
-                                        className="placeholder:opacity-70 w-1/2"
+                                        className="placeholder:opacity-70 w-full lg:w-1/2"
                                     />
                                 </FormControl>
                             </FormItem>
@@ -113,7 +113,7 @@ export const ContactsForm: React.FC<ContactsFormPropsType> = ({
                                     <Input
                                         {...field}
                                         placeholder="+380671234567"
-                                        className="placeholder:opacity-70 w-1/2"
+                                        className="placeholder:opacity-70 w-full lg:w-1/2"
                                     />
                                 </FormControl>
                             </FormItem>

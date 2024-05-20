@@ -1,11 +1,11 @@
 "use client";
 
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useMediaQuery } from "usehooks-ts";
 
 const defaultMapContainerStyle = {
     width: "100%",
-    height: "500px",
-    borderRadius: "15px 0px 0px 15px",
+    borderRadius: "15px",
 };
 
 const center = {
@@ -23,10 +23,15 @@ const mapOptions = {
 };
 
 export const GoogleMapComponent = () => {
+    const islargeScreen = useMediaQuery("(min-width: 1024px)");
+
     return (
         <div className="w-full">
             <GoogleMap
-                mapContainerStyle={defaultMapContainerStyle}
+                mapContainerStyle={{
+                    ...defaultMapContainerStyle,
+                    height: islargeScreen ? "500px" : "380px",
+                }}
                 center={center}
                 zoom={mapZoom}
                 options={mapOptions}

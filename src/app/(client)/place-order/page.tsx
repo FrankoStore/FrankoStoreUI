@@ -159,7 +159,7 @@ const PlaceOrderPage = () => {
                             >
                                 Оплата карткою, Apple або Google Pay Безпечна
                                 оплата кредитною/дебетовою карткою або
-                                Apple/Google Pay за допомогою Fondy
+                                Apple/Google Pay за допомогою LiqPay
                             </Label>
                         </div>
                         <div className="flex items-center gap-4">
