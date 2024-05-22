@@ -2,11 +2,10 @@
 
 import React from "react";
 
-import { URLS } from "@/lib/constants";
-
 import { useActiveUser } from "@/hooks/use-active-user";
 import { useCart } from "@/hooks/use-cart";
 
+import NovaPostForm from "./_components/nova-post-form";
 import { Container } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -110,25 +109,17 @@ const PlaceOrderPage = () => {
                             </Label>
                         </div>
                     </RadioGroup>
-                    <div className="flex gap-[30px] items-center mt-[30px]">
-                        <div className="flex items-center gap-2 w-[350px]">
-                            <Input placeholder="Виберіть місто доставки" />
-                        </div>
-                        <div className="flex items-center gap-2 w-[350px]">
-                            <Input placeholder="Поштовий індекс" />
-                        </div>
-                    </div>
-                    <div className="flex gap-[30px] items-center mt-[30px]">
-                        <div className="flex items-center gap-2 w-[350px]">
-                            <Input placeholder="Вулиця" />
-                        </div>
-                        <div className="flex items-center gap-2 w-[350px]">
-                            <Input placeholder="Номер будинку/квартири" />
-                        </div>
-                    </div>
-                    <div className="flex gap-[30px] items-center mt-[30px]">
-                        <div className="flex items-center gap-2 w-[350px]">
-                            <Input placeholder="Оберіть відділення" />
+                    <div className="flex items-start justify-center gap-[30px]">
+                        <NovaPostForm isDisabled={false} />
+                        <div className="flex flex-col gap-[30px] items-satrt mt-[30px]">
+                            <Input
+                                placeholder="Поштовий індекс"
+                                className="w-[350px]"
+                            />
+                            <Input
+                                placeholder="Номер будинку/квартири"
+                                className="w-[350px]"
+                            />
                         </div>
                     </div>
                 </div>

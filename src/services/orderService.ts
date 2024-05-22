@@ -8,7 +8,7 @@ import {
     IGetStreetsInput,
     IGetWarehousesInput,
 } from "@/types/Order.types";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useCallback } from "react";
 
 export const useCreateorder = () => {

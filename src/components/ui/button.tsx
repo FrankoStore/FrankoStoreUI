@@ -18,7 +18,7 @@ const buttonVariants = cva(
                 icon: "border-none bg-transparent",
             },
             size: {
-                primary: "w-[307px] h-[53px] text-[18px]",
+                primary: "w-[160px] lg:w-[307px] h-[43px] text-[14px] lg:text-[18px]",
                 link: "text-[17px]",
             },
         },
