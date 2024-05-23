@@ -1,30 +1,35 @@
-import SearchDropdown from "./search-dropdown";
-import { useGetSettlements } from "@/services/orderService";
+import SearchDropdown, { SearchDropdownItem } from "./search-dropdown";
+import { useGetSettlements, useGetWarehouses } from "@/services/orderService";
 import React, { useEffect, useState } from "react";
 
 import { cn, parseSettlements } from "@/lib/utils";
+
+import { useCities } from "@/hooks/use-cities";
 
 type NovaPostFormProps = {
     isDisabled: boolean;
 };
 
 const NovaPostForm = ({ isDisabled }: NovaPostFormProps) => {
-    const { getSettlements, data } = useGetSettlements();
-    const [cityAddresses, setCityAddresses] = useState<
-        { label: string; value: string }[]
+    const { changeCity, cities, city } = useCities();
+    const { data: settlements } = useGetSettlements();
+    const { getWarehouses, data: warehouses } = useGetWarehouses();
+    const [cityAddresses, setCityAddresses] = useState<SearchDropdownItem[]>(
+        [],
+    );
+    const [warehousesAddresses, setWarehousesAddresses] = useState<
+        SearchDropdownItem[]
     >([]);
 
     useEffect(() => {
-        getSettlements("Львів");
-    }, []);
-
-    useEffect(() => {
-        if (!data) return;
+        if (!settlements) return;
         (async () => {
-            const parsedResponse = await parseSettlements(data.getSettlements);
+            const parsedResponse = await parseSettlements(
+                settlements.getSettlements,
+            );
             setCityAddresses(parsedResponse);
         })();
-    }, [data]);
+    }, [settlements]);
 
     return (
         <div
@@ -33,7 +38,18 @@ const NovaPostForm = ({ isDisabled }: NovaPostFormProps) => {
                 isDisabled ? "opacity-70" : null,
             )}
         >
-            <SearchDropdown values={cityAddresses} />
+            <SearchDropdown
+                onSubmitAction={(newValue) => changeCity(newValue)}
+                values={cities}
+                label="Виберіть місто"
+            />
+
+            <SearchDropdown
+                onSubmitAction={(newValue) => {}}
+                values={cityAddresses}
+                label="Виберіть населений пункт"
+                disabled={!(cityAddresses.length > 0)}
+            />
 
             {/* <NovaPostSelect
                 defaultValue="Виберіть місто доставки"

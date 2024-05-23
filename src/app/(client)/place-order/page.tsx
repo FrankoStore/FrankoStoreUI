@@ -1,7 +1,9 @@
 "use client";
 
+import PaymentTestButton from "./payment-test-button";
 import React from "react";
 
+import { useOrder } from "@/hooks/use-active-order";
 import { useActiveUser } from "@/hooks/use-active-user";
 import { useCart } from "@/hooks/use-cart";
 
@@ -15,6 +17,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const PlaceOrderPage = () => {
     const { products } = useCart();
+    const {
+        products: orderProducts,
+        deliveryAddress,
+        isSelfDelivery,
+    } = useOrder();
     const { user } = useActiveUser();
 
     return (
@@ -183,6 +190,7 @@ const PlaceOrderPage = () => {
             <Button type="submit" className="max-w-[450px] w-full mt-[60px]">
                 Оформити замовлення
             </Button>
+            <PaymentTestButton />
             {/* <Button className="max-w-[450px] w-full mt-[60px]">
                 <Link href={URLS.CHECKOUT}>Оформити замовлення</Link>
             </Button> */}

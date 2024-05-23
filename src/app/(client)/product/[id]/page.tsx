@@ -2,9 +2,12 @@
 
 import { AmountCounter, ProductSection, ProductSlider } from "./_components";
 import { useGetProductsWithOptions } from "@/services/productService";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import { URLS } from "@/lib/constants";
+
+import { useOrder } from "@/hooks/use-active-order";
 import { AddProductType, useCart } from "@/hooks/use-cart";
 
 import { Container } from "@/components/shared";
@@ -41,6 +44,7 @@ const characteristcs = [
 
 const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
     const { data, isLoading } = useGetProductsWithOptions({ ids: [+id] });
+    const { addProduct: addProductToOrder } = useOrder();
     const [quantity, setQuantity] = useState(1);
     const { addProduct } = useCart();
     const { data: products, isLoading: isProductsLoading } =
@@ -48,6 +52,7 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
             take: 3,
         });
     const { toast } = useToast();
+    const router = useRouter();
 
     if (isLoading) return null;
     if (data.length === 0) redirect("/shop");
@@ -96,7 +101,14 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
                         />
                     </div>
                     <div className="flex-1 flex items-end gap-[23px] mt-[10px]">
-                        <Button>Купити зараз</Button>
+                        <Button
+                            onClick={() => {
+                                addProductToOrder({ productId: +id, quantity });
+                                router.push(URLS.PLACE_ORDER);
+                            }}
+                        >
+                            Купити зараз
+                        </Button>
                         <Button
                             onClick={() =>
                                 addProductToCart({ ...data[0], quantity })

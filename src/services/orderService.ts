@@ -16,21 +16,17 @@ export const useCreateorder = () => {
         useMutation(CREATE_ORDER);
 
     const createOrder = useCallback(
-        async (orderData: ICreateOrderInput) => {
-            try {
-                const { data } = await createOrderMutation({
-                    variables: { order: orderData },
-                });
-                const orderInfo = data.createOrder as ICreateOrderResponse;
-                return orderInfo;
-            } catch (_) {
-                return error;
-            }
+        (orderData: ICreateOrderInput) => {
+            createOrderMutation({
+                variables: { order: orderData },
+            });
         },
         [createOrderMutation],
     );
 
-    return { createOrder, loading, data, error };
+    const paymentData = data?.createOrder as ICreateOrderResponse | undefined;
+
+    return { createOrder, loading, data: paymentData, error };
 };
 
 export const useGetSettlements = () => {

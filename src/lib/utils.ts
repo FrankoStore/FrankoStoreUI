@@ -16,7 +16,6 @@ export const parseSettlements = async (novapostResponse: string) => {
             novapostResponse,
         )) as IGetSettlementsResponse[];
         const cityAddresses = novapostData[0].Addresses;
-        console.log(cityAddresses);
         return cityAddresses.map((cityAddress) => ({
             label: cityAddress.Present,
             value: cityAddress.Ref,

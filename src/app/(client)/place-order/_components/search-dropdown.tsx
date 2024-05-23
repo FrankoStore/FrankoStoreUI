@@ -20,16 +20,24 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 
-type SearchDropdownItem = {
+export type SearchDropdownItem = {
     value: string;
     label: string;
 };
 
 type SearchDropdownProps = {
     values: SearchDropdownItem[];
+    label?: string;
+    onSubmitAction: (newValue: string) => void;
+    disabled?: boolean;
 };
 
-export default function ({ values }: SearchDropdownProps) {
+export default function ({
+    values,
+    label = "Пошук...",
+    onSubmitAction,
+    disabled = false,
+}: SearchDropdownProps) {
     const [open, setOpen] = React.useState(false);
     const [currentValue, setValue] = React.useState("");
 
@@ -47,14 +55,14 @@ export default function ({ values }: SearchDropdownProps) {
                             ? values.find(
                                   (value) => value.label === currentValue,
                               )?.label
-                            : "Пошук..."}
+                            : label}
                     </span>
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[250px] p-0">
                 <Command>
                     <CommandList>
-                        <CommandInput placeholder="Пошук..." className="h-9" />
+                        <CommandInput placeholder={label} className="h-9" />
                         <CommandEmpty>Даних не знайдено</CommandEmpty>
                         <CommandGroup>
                             {values.map((value) => (
@@ -62,13 +70,11 @@ export default function ({ values }: SearchDropdownProps) {
                                     key={value.value}
                                     value={value.label}
                                     onSelect={(newValue) => {
-                                        setValue(
-                                            currentValue === value.label
-                                                ? ""
-                                                : newValue,
-                                        );
+                                        setValue(newValue);
+                                        onSubmitAction(newValue);
                                         setOpen(false);
                                     }}
+                                    disabled={disabled}
                                     className="aria-[selected='true']:bg-primary aria-[selected='true']:text-primary-foreground data-[disabled]:pointer-events-auto data-[disabled]:opacity-100"
                                 >
                                     {value.label}
