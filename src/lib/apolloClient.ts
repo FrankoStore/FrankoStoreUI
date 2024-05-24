@@ -1,29 +1,25 @@
 import { API_BASE_URL, URLS } from "./constants";
 import {
     ApolloClient,
-    ApolloLink,
     HttpLink,
     InMemoryCache,
     Observable,
-    from,
 } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { redirect } from "next/navigation";
 
-const authMiddleware = new ApolloLink((operation, forward) => {
-    const needAuthorization = !["Login", "Register"].includes(
-        operation.operationName,
-    );
-    if (operation.operationName && needAuthorization)
-        operation.setContext(({ headers = {} }) => ({
-            headers: {
-                ...headers,
-                authorization: `Bearer ${localStorage?.getItem("accessToken")?.replaceAll('"', "") || null}`,
-            },
-        }));
-
-    return forward(operation);
+const authLink = setContext((_, { headers }) => {
+    const lsToken = localStorage.getItem("accessToken");
+    const token = lsToken ? JSON.parse(lsToken) : "";
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : "",
+        },
+    };
 });
+
 const authErrorLink = onError(
     ({ graphQLErrors, networkError, operation, forward }) => {
         if (graphQLErrors) {
@@ -59,7 +55,7 @@ const httpLink = new HttpLink({ uri: `${API_BASE_URL}/graphql` });
 export const createApolloClient = () => {
     return new ApolloClient({
         uri: `${API_BASE_URL}/graphql`,
-        link: from([authMiddleware, httpLink]),
+        link: authLink.concat(httpLink),
         cache: new InMemoryCache(),
     });
 };

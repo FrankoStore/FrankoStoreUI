@@ -6,3 +6,4 @@ export { BagIcon } from "./BagIcon";
 export { InstagramIcon } from "./InstagramIcon";
 export { FacebookIcon } from "./FacebookIcon";
 export { ArrowIcon } from "./ArrowIcon";
+export { AdminDashboardIcon } from "./AdminDashboardIcon";

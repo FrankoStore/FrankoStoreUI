@@ -2,7 +2,7 @@
 
 import { ProductColumn } from "./columns";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -24,12 +24,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const router = useRouter();
-    const params = useParams();
 
     const onConfirm = async () => {
         try {
             setLoading(true);
-            // await axios.delete(`/api/${params.storeId}/products/${data.id}`);
             toast.success("Product deleted.");
             router.refresh();
         } catch (error) {
@@ -42,7 +40,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id);
-        toast.success("Product ID copied to clipboard.");
+        toast.success("Product name copied to clipboard.");
     };
 
     return (
@@ -67,7 +65,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() =>
-                            router.push(`/admin/products/${data.name}/edit`)
+                            router.push(`/admin/products/${data.id}/edit`)
                         }
                     >
                         <Edit className="mr-2 h-4 w-4" /> Update

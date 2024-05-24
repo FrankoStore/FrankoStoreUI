@@ -7,6 +7,7 @@ import {
 import { Container } from "@/components/shared";
 
 import aboutImg from "@public/aboutUs.png";
+import aboutBottomImg from "@public/aboutUsBottom.png";
 
 const sliderItems: CarouselItemPropsType[] = [
     {
@@ -80,8 +81,14 @@ const AboutPage = () => {
                     overrideContainerStyle="pt-[130px]"
                 />
             </Container>
-            <Container className="pt-[150px] flex justify-between items-center">
-                <div className="max-w-[645px] w-full aspect-[645/351] bg-[#D9D9D9]" />
+            <Container className="pt-[150px] flex justify-between items-center pr-12">
+                <div className="max-w-[645px] w-full aspect-[645/351] h-auto">
+                    <Image
+                        className="w-full object-cover"
+                        src={aboutBottomImg}
+                        alt="LNU"
+                    />
+                </div>
                 <div className="max-w-[550px] w-full">
                     <div>
                         <p className="uppercase text-[35px] text-darkblue">
@@ -93,15 +100,15 @@ const AboutPage = () => {
                             унікальні дизайнерські колекції.
                         </p>
                     </div>
-                    <div className="mt-7">
+                    <div className="mt-10">
                         <p className="uppercase text-[35px] text-darkblue">
                             У нас ви можете придбати:
                         </p>
                         <ul className="text-[14px] mt-4 list-disc ml-[16px]">
-                            <li>стильний та зручний одяг;</li>
-                            <li>оригінальне канцелярське приладдя;</li>
-                            <li>унікальний посуд;</li>
-                            <li>цікаві аксесуари;</li>
+                            <li>стильний та зручний одяг,</li>
+                            <li>оригінальне канцелярське приладдя,</li>
+                            <li>унікальний посуд,</li>
+                            <li>цікаві аксесуари,</li>
                             <li>екотовари.</li>
                         </ul>
                     </div>

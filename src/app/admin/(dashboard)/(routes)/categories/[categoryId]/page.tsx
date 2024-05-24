@@ -11,7 +11,7 @@ function isNumeric(str: string) {
 
 const CategoryPage = ({ params }: { params: { categoryId: string } }) => {
     const { data: category } = useGetCategoryByIdQuery(
-        isNumeric(params.categoryId) ? parseInt(params.categoryId) : null,
+        isNumeric(params.categoryId) ? parseInt(params.categoryId) : -1,
     );
 
     return (

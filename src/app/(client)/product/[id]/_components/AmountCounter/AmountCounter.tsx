@@ -1,23 +1,31 @@
 "use client";
 
-import { PlusIcon } from "lucide-react";
+import { Minus, PlusIcon } from "lucide-react";
 import React, { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
 interface AmountCounterPropsType {
     overrideContainerStyle?: string;
+    value?: number;
+    onChange?: (value: number) => void;
 }
 
-export const AmountCounter: React.FC<AmountCounterPropsType> = (props) => {
-    const { overrideContainerStyle } = props;
+export const AmountCounter: React.FC<AmountCounterPropsType> = ({
+    value,
+    overrideContainerStyle,
+    onChange,
+}) => {
+    const [counter, setCounter] = useState(value ?? 1);
 
-    const [counter, setCounter] = useState(1);
-
-    const increase = () => setCounter((prev) => prev + 1);
+    const increase = () => {
+        if (onChange) onChange(counter + 1);
+        setCounter((prev) => prev + 1);
+    };
     const decrease = () => {
         if (counter === 1) return;
-        else setCounter((prev) => prev - 1);
+        if (onChange) onChange(counter + 1);
+        setCounter((prev) => prev - 1);
     };
 
     return (
@@ -32,16 +40,16 @@ export const AmountCounter: React.FC<AmountCounterPropsType> = (props) => {
             </div>
             <div className="flex-1">
                 <div
-                    onClick={() => increase()}
+                    onClick={increase}
                     className="h-1/2 cursor-pointer select-none font-light border-b-[1px] border-black flex items-center justify-center"
                 >
                     <PlusIcon width={20} />
                 </div>
                 <div
-                    onClick={() => decrease()}
+                    onClick={decrease}
                     className="h-1/2 cursor-pointer select-none font-light text-[29px] flex items-center justify-center"
                 >
-                    -
+                    <Minus width={20} />
                 </div>
             </div>
         </div>

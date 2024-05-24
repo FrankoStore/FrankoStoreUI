@@ -1,10 +1,6 @@
 "use client";
 
-import { GET_CATEGORIES } from "@/api/queries/getCategories";
 import { useGetCategoriesQuery } from "@/services/categoriesService";
-import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 import { CategoriesClient } from "./components/client";
 

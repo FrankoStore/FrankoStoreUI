@@ -1,18 +1,16 @@
-import { CREATE_CATEGORY } from "@/api/mutations/createCategory";
 import { CREATE_PRODUCT } from "@/api/mutations/createProduct";
-import { UPDATE_CATEGORY_NAME } from "@/api/mutations/updateCategoryName";
-// import { UPDATE_PRODUCT } from "@/api/mutations/updateProduct";
-import { GET_CATEGORIES } from "@/api/queries/getCategories";
-import { GET_PRODUCTS } from "@/api/queries/getProducts";
+import { UPDATE_PRODUCT } from "@/api/mutations/updateProduct";
+import {
+    GET_PRODUCTS_BY_OPTIONS,
+    GET_PRODUCTS_CARDS,
+} from "@/api/queries/getProducts";
+import {
+    IGetProductsOptions,
+    IProduct,
+    IProductCard,
+    SIZE,
+} from "@/types/Product.types";
 import { useMutation, useQuery } from "@apollo/client";
-
-enum SIZE {
-    L = "L",
-    M = "M",
-    S = "S",
-    XL = "XL",
-    XXL = "XXL",
-}
 
 interface CreateProductData {
     categories: {
@@ -25,37 +23,50 @@ interface CreateProductData {
     retailPrice: number;
     size: keyof typeof SIZE;
     width: number;
-    // amount: number;
     images: any[];
 }
 
+interface UpdateProductData extends CreateProductData {
+    amount: number;
+}
+
 export const useGetProductsQuery = () => {
-    const { loading, error, data } = useQuery(GET_PRODUCTS);
+    const { loading, error, data } = useQuery(GET_PRODUCTS_CARDS);
 
-    const categories = data?.getProducts;
+    const products = data?.getProducts as IProductCard[];
 
-    return { data: categories, isLoading: loading, error };
+    return { data: products, isLoading: loading, error };
 };
 
-export const useGetProductByIdQuery = (id: number) => {
-    const { loading, error, data } = useQuery(GET_CATEGORIES, {
+export const useGetProductsWithOptions = (options?: IGetProductsOptions) => {
+    const { loading, error, data } = useQuery(GET_PRODUCTS_BY_OPTIONS, {
+        variables: { findOptions: options },
+    });
+
+    const product = data?.getProducts as IProduct[];
+
+    return { data: product, isLoading: loading, error };
+};
+
+export const useGetProductById = (id: number) => {
+    const { loading, error, data } = useQuery(GET_PRODUCTS_BY_OPTIONS, {
         variables: { findOptions: { ids: id } },
     });
 
-    const categories = data?.getProductCategories[0];
+    const product = data?.getProducts[0] as IProduct;
 
-    return { data: categories, isLoading: loading, error };
+    return { data: product, isLoading: loading, error };
 };
 
 export const useUpdateProduct = () => {
     const [updateProductMutation, { data, loading, error }] =
-        useMutation(CREATE_PRODUCT);
+        useMutation(UPDATE_PRODUCT);
 
-    const updateProduct = async (id: number, data: CreateProductData) => {
+    const updateProduct = async (id: number, data: UpdateProductData) => {
         await updateProductMutation({
             variables: {
                 updateProductId: id,
-                productProduct: data,
+                product: data,
             },
         });
     };

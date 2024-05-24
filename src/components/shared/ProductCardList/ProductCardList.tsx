@@ -1,19 +1,13 @@
 "use client";
 
 import { ProductCard } from "..";
+import { IProductCard } from "@/types/Product.types";
 import React from "react";
 
 import { Button } from "@/components/ui/button";
 
-export interface Product {
-    id?: string;
-    image?: string;
-    title?: string;
-    price?: string;
-}
-
 interface ProductCardListPropsType {
-    items?: Product[];
+    items?: IProductCard[];
     buttonText?: string;
     loadMore?: () => void;
     overrideContainerStyle?: string;

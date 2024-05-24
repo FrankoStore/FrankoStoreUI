@@ -1,41 +1,52 @@
 "use client";
 
+import { useGetProductById } from "@/services/productService";
+import { IProductCard } from "@/types/Product.types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { useCart } from "@/hooks/use-cart";
+
 import prodImg from "@public/test_prod.png";
 
-interface ProductCardPropsType {
-    id?: string;
-    image?: string;
-    title?: string;
-    price?: string;
+interface ProductCardPropsType extends IProductCard {
     overrideCardContainerStyle?: string;
 }
 
 export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
     const {
         id,
-        image,
-        title = "Екоторба “Сlassic",
-        price = "125 грн",
+        name = "Екоторба “Сlassic",
+        retailPrice = 125,
         overrideCardContainerStyle,
     } = props;
+    const { data: product } = useGetProductById(id);
+
+    const { addProduct } = useCart();
 
     return (
-        <div className={overrideCardContainerStyle}>
+        <div
+            className={overrideCardContainerStyle}
+            onClick={() => addProduct(product)}
+        >
             <div className="w-full aspect-[307/377] cursor-pointer">
-                <Image src={prodImg} alt="img" className="w-full" />
+                <Image
+                    src={prodImg}
+                    width={250}
+                    height={250}
+                    alt="img"
+                    className="w-full h-full"
+                />
             </div>
             <Link
                 href={`/product/${id}`}
                 className="text-center w-full block text-[17px] mt-[25px] font-semibold"
             >
-                {title}
+                {name}
             </Link>
             <p className="w-full text-center text-[17px] font-light mt-[5px]">
-                {price}
+                {retailPrice} грн
             </p>
         </div>
     );

@@ -2,6 +2,7 @@ export enum URLS {
     HOME = "/",
     SHOP = "/shop",
     ABOUT = "/about",
+    CONTACTS = "/contacts",
     PRODUCT = "/product",
     CABINET = "/user-profile",
     CART = "/cart",
@@ -9,6 +10,7 @@ export enum URLS {
     DISCOUNT = "/benefits",
     CHECKOUT = "/checkout",
     UNIVERCITY = "https://lnu.edu.ua/",
+    ADMIN = "/admin",
 }
 
 // @ts-ignore

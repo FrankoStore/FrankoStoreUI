@@ -2,7 +2,7 @@
 
 import { useRegisterUser } from "@/services/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EyeIcon, EyeOffIcon, SearchIcon, X } from "lucide-react";
+import { EyeIcon, EyeOffIcon, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 interface RegisterFormPropsType {
     onClose?: () => void;

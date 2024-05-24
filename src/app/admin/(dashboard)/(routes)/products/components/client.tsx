@@ -2,7 +2,7 @@
 
 import { ProductColumn, columns } from "./columns";
 import { Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/buttonAdmin";
 import { DataTable } from "@/components/ui/data-table";
@@ -14,7 +14,6 @@ interface ProductsClientProps {
 }
 
 export const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
-    const params = useParams();
     const router = useRouter();
 
     return (

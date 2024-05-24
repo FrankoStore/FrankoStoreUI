@@ -1,13 +1,19 @@
-import { GET_PRODUCTS } from "@/api/queries/getProducts";
 import { GET_USER_DATA } from "@/api/queries/getUserData";
-import { useQuery } from "@apollo/client";
+import { IUserDataType } from "@/types/User.types";
+import { useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
-class UserService {
-    getUserData = () => {
-        const { loading, error, data } = useQuery(GET_USER_DATA);
+export const useGetUserData = () => {
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const [getUserData, { loading, error, data, called }] =
+        useLazyQuery(GET_USER_DATA);
 
-        return { data, isLoading: loading, error };
-    };
-}
+    useEffect(() => {
+        if (!loading) getUserData();
+    }, [accessToken]);
 
-export const userService = new UserService();
+    const userData = data?.getMysUser as IUserDataType;
+
+    return { userData, loading, error, called };
+};
