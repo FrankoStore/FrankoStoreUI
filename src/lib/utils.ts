@@ -1,4 +1,5 @@
 import { IGetSettlementsResponse } from "@/types/Order.types";
+import { IProductImage } from "@/types/Product.types";
 import { IUserDataType } from "@/types/User.types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -25,3 +26,6 @@ export const parseSettlements = async (novapostResponse: string) => {
         return [];
     }
 };
+
+export const converToBase64 = (image: IProductImage) =>
+    `data:image/${image.fileExtension.substring(1)};base64,${image.path}`;

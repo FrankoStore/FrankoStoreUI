@@ -6,21 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { useCart } from "@/hooks/use-cart";
+import { converToBase64 } from "@/lib/utils";
 
-import prodImg from "@public/test_prod.png";
+import { useCart } from "@/hooks/use-cart";
 
 interface ProductCardPropsType extends IProductCard {
     overrideCardContainerStyle?: string;
 }
 
 export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
-    const {
-        id,
-        name = "Екоторба “Сlassic",
-        retailPrice = 125,
-        overrideCardContainerStyle,
-    } = props;
+    const { id, name, retailPrice, images, overrideCardContainerStyle } = props;
     const { data: product } = useGetProductById(id);
 
     const { addProduct } = useCart();
@@ -31,13 +26,13 @@ export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
             onClick={() => addProduct(product)}
         >
             <Link href={`/product/${id}`}>
-                    <Image
-                        src={prodImg}
-                        width={250}
-                        height={250}
-                        alt="product"
-                        className="w-full aspect-[307/377]"
-                    />
+                <Image
+                    src={converToBase64(images[0])}
+                    width={250}
+                    height={250}
+                    alt="product"
+                    className="w-full aspect-[307/377] rounded-sm"
+                />
                 <p className="text-center w-full block text-[17px] mt-[25px] font-semibold">
                     {name}
                 </p>

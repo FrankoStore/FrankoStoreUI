@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export default function RootLayout({
     children,
@@ -25,7 +25,7 @@ export default function RootLayout({
     }, []);
 
     return (
-        <div className={cn(inter.className, "min-h-screen flex flex-col")}>
+        <div className={cn(inter.variable, "min-h-screen flex flex-col font-inter")}>
             <Header />
             <main className="flex-1">{children}</main>
             <Footer overrideContainerStyle="mt-[112px]" />

@@ -15,8 +15,6 @@ import ProductCardSkeleton from "@/components/shared/ProductCard/ProductCardSkel
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
-const images = ["ad", "add", "ada"];
-
 interface ProductPagePropsType {
     params: {
         id: string;
@@ -55,14 +53,14 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
     const router = useRouter();
 
     if (isLoading) return null;
-    if (data.length === 0) redirect("/shop");
+    if (!data?.length) redirect("/shop");
 
     const addProductToCart = (product: AddProductType) => {
         addProduct(product);
         toast({ title: "Товар успішно додано в корзину" });
     };
 
-    const { name, description, retailPrice } = data[0];
+    const { name, description, retailPrice, images } = data[0];
     return (
         <Container>
             <div className="flex w-[85%] mx-auto gap-[60px]">

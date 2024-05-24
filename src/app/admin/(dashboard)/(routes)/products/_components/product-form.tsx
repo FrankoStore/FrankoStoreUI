@@ -108,7 +108,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             size: data.size,
             name: data.name,
             retailPrice: data.retailPrice,
-            images: [],
+            images: data.images.map((image) => ({
+                ...image,
+                path: `data:image/${image.fileExtension.substring(1)};base64,${image.file}`,
+            })),
         };
         try {
             setLoading(true);
@@ -364,8 +367,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                     <FormItem className="w-2/3">
                                         <FileUpload
                                             onChange={field.onChange}
-                                            // value={field.value}
-                                            value={[]}
                                             disabled={loading}
                                         />
                                     </FormItem>
