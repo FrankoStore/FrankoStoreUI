@@ -10,6 +10,8 @@ export interface ActiveOrder {
     addProduct: (product: OrderProduct) => void;
     removeProduct: (id: number) => void;
     updateQuantity: (id: number, quantity: number) => void;
+    toggleSelfDelivery: (value: boolean) => void;
+    updateDeliveryAddress: (address: string) => void;
 }
 
 export const useOrder = create<ActiveOrder>()(
@@ -17,7 +19,7 @@ export const useOrder = create<ActiveOrder>()(
         (set, get) => ({
             products: [],
             deliveryAddress: "",
-            isSelfDelivery: true,
+            isSelfDelivery: false,
             addProduct: (product: OrderProduct) => {
                 const { products } = get();
                 set({ products: addToOrder(products, product) });

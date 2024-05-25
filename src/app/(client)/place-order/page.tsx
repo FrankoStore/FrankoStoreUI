@@ -1,6 +1,7 @@
 "use client";
 
-import PaymentTestButton from "./payment-test-button";
+import PaymentButton from "./payment-button";
+import { useCreateorder } from "@/services/orderService";
 import React from "react";
 
 import { useOrder } from "@/hooks/use-active-order";
@@ -23,6 +24,18 @@ const PlaceOrderPage = () => {
         isSelfDelivery,
     } = useOrder();
     const { user } = useActiveUser();
+    const { createOrder, loading, data } = useCreateorder();
+
+    const submitOrder = () => {
+        createOrder({
+            deliveryAddress,
+            isSelfDelivery,
+            products: products.map(({ id, quantity }) => ({
+                productId: id,
+                quantity,
+            })),
+        });
+    };
 
     return (
         <Container className="pt-[70px]">
@@ -187,13 +200,16 @@ const PlaceOrderPage = () => {
                     </div>
                 </div>
             </div>
-            <Button type="submit" className="max-w-[450px] w-full mt-[60px]">
-                Оформити замовлення
-            </Button>
-            <PaymentTestButton />
-            {/* <Button className="max-w-[450px] w-full mt-[60px]">
-                <Link href={URLS.CHECKOUT}>Оформити замовлення</Link>
-            </Button> */}
+            <div className="flex items-center justify-start mt-14 gap-3">
+                <Button
+                    onClick={submitOrder}
+                    type="button"
+                    className="max-w-[450px] w-full"
+                >
+                    Оформити замовлення
+                </Button>
+                <PaymentButton html={data?.paymentUrl} />
+            </div>
         </Container>
     );
 };

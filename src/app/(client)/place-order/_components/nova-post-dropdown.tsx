@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 
 import { parseCities, parseStreets, parseWarehouses } from "@/lib/utils";
 
+import { useOrder } from "@/hooks/use-active-order";
+
 export default function NovaPostDropdown() {
     const [cityQuery, setCityQuery] = useState("");
     const [streetQuery, setStreetQuery] = useState("");
@@ -20,6 +22,7 @@ export default function NovaPostDropdown() {
     const { data: citiesData, getCities } = useGetCities();
     const { data: streetsData, getStreets } = useGetCitiesStreets();
     const { data: warehousesData, getWarehouses } = useGetWarehouses();
+    const { updateDeliveryAddress } = useOrder();
 
     useEffect(() => {
         getCities(cityQuery);
@@ -87,7 +90,11 @@ export default function NovaPostDropdown() {
 
             <SearchDropdown
                 values={warehouses}
-                onSubmitAction={(warehouse) => console.log(warehouse)}
+                onSubmitAction={(warehouse) =>
+                    updateDeliveryAddress(
+                        `${activeCity?.label}, ${warehouse.label}`,
+                    )
+                }
                 label="Оберіть відділення"
             />
         </>
