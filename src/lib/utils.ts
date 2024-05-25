@@ -4,7 +4,6 @@ import {
     Street,
     Warehouse,
 } from "@/types/Order.types";
-import { IProductImage } from "@/types/Product.types";
 import { IUserDataType } from "@/types/User.types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -27,7 +26,6 @@ export const parseSettlements = async (novapostResponse: string) => {
             value: cityAddress.Ref,
         }));
     } catch (error) {
-        console.log(error);
         return [];
     }
 };
@@ -41,7 +39,6 @@ export const parseCities = async (novaPostCitiesResponse: string) => {
             value: city.Ref,
         }));
     } catch (error) {
-        console.log(error);
         return [];
     }
 };
@@ -55,7 +52,6 @@ export const parseStreets = async (novaPostStreetsResponse: string) => {
             value: street.Ref,
         }));
     } catch (error) {
-        console.log(error);
         return [];
     }
 };
@@ -70,10 +66,12 @@ export const parseWarehouses = async (novaPostWarehousesResponse: string) => {
             value: warehouse.Ref,
         }));
     } catch (error) {
-        console.log(error);
         return [];
     }
 };
 
-export const converToBase64 = (image: IProductImage) =>
-    `data:image/${image.fileExtension.substring(1)};base64,${image.path}`;
+export const converToBase64 = (image: {
+    fileExtension: string;
+    path: string;
+    [key: string]: any;
+}) => `data:image/${image.fileExtension.substring(1)};base64,${image.path}`;

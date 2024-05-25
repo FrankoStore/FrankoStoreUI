@@ -33,7 +33,7 @@ type SearchDropdownProps = {
     onInputChange?: any;
 };
 
-export default function ({
+export default function SearchDropdown({
     values,
     label = "Пошук...",
     onSubmitAction,

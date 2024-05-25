@@ -1,13 +1,14 @@
 "use client";
 
+import { columns } from "./columns";
+import { IOrder } from "@/types/Order.types";
+
 import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { columns, OrderColumn } from "./columns";
-
 interface OrderClientProps {
-    data: OrderColumn[];
+    data: IOrder[];
 }
 
 export const OrderClient: React.FC<OrderClientProps> = ({ data }) => {
@@ -18,7 +19,11 @@ export const OrderClient: React.FC<OrderClientProps> = ({ data }) => {
                 description="Manage orders for your store"
             />
             <Separator />
-            <DataTable searchKey="products" columns={columns} data={data} />
+            <DataTable
+                searchKey="customer"
+                columns={columns}
+                data={data}
+            />
         </>
     );
 };

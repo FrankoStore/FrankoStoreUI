@@ -1,14 +1,17 @@
 import { CREATE_ORDER } from "@/api/mutations/createOrder";
 import { GET_CITIES } from "@/api/queries/getCities";
 import { GET_CITIES_STREETS } from "@/api/queries/getCitiesStreets";
+import { GET_ORDERS } from "@/api/queries/getOrders";
 import { GET_SETTLEMENTS } from "@/api/queries/getSettlements";
 import { GET_STREETS } from "@/api/queries/getStreets";
 import { GET_WAREHOUSES } from "@/api/queries/getWarehouses";
 import {
     ICreateOrderInput,
     ICreateOrderResponse,
+    IGetOrdersOptions,
     IGetStreetsInput,
     IGetWarehousesInput,
+    IOrder,
 } from "@/types/Order.types";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useCallback } from "react";
@@ -29,6 +32,25 @@ export const useCreateorder = () => {
     const paymentData = data?.createOrder as ICreateOrderResponse | undefined;
 
     return { createOrder, loading, data: paymentData, error };
+};
+
+export const useGetOrders = () => {
+    const [getOrders, { data, error, loading }] = useLazyQuery(GET_ORDERS);
+
+    const getOrdersWithOptions = useCallback(
+        (options: IGetOrdersOptions) => {
+            getOrders({
+                variables: {
+                    ...options,
+                },
+            });
+        },
+        [getOrders],
+    );
+
+    const orders = data?.getOrders as IOrder[];
+
+    return { getOrders, orders, error, loading, getOrdersWithOptions };
 };
 
 export const useGetSettlements = () => {

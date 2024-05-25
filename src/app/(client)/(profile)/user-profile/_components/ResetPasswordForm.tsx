@@ -77,7 +77,6 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormPropsType> = (
             form.reset();
             onClose?.();
         } catch (e) {
-            console.log(e);
             toast({
                 title: "Неправильні дані",
             });

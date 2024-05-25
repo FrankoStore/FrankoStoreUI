@@ -9,6 +9,40 @@ export interface ICreateOrderResponse {
     summaryPayment: number;
 }
 
+export interface IOrder {
+    createdAt: Date;
+    deliveryAddress: string;
+    executor: null;
+    isPaid: boolean;
+    id: number;
+    summaryPayment: number;
+    status: string;
+    customer: {
+        email: string;
+        id: number;
+    };
+    products: {
+        id: number;
+        images: {
+            path: string;
+            fileExtension: string;
+        }[];
+    }[];
+}
+
+export interface IGetOrdersOptions {
+    createdAt?: Date;
+    customerIds?: number[];
+    executorIds?: number[];
+    ids?: number[];
+    isPaid?: boolean;
+    skip?: number;
+    statuses?: string;
+    summaryPayment?: number;
+    take?: number;
+    updatedAt?: Date;
+}
+
 export interface IGetWarehousesInput {
     cityName: string;
     limit: number;

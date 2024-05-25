@@ -1,36 +1,38 @@
 "use client";
 
+import { IOrder } from "@/types/Order.types";
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 
-export type OrderColumn = {
-    id: string;
-    phone: string;
-    address: string;
-    isPaid: boolean;
-    totalPrice: string;
-    products: string;
-    createdAt: string;
-};
-
-export const columns: ColumnDef<OrderColumn>[] = [
+export const columns: ColumnDef<IOrder>[] = [
     {
-        accessorKey: "products",
-        header: "Products",
+        accessorKey: "id",
+        header: "ID",
     },
     {
-        accessorKey: "phone",
-        header: "Phone",
+        accessorKey: "customer",
+        header: "Customer email",
+        accessorFn: (order) => order.customer.email,
     },
     {
-        accessorKey: "address",
+        accessorKey: "status",
+        header: "Status",
+    },
+    {
+        accessorKey: "deliveryAddress",
         header: "Address",
     },
     {
-        accessorKey: "totalPrice",
+        accessorKey: "summaryPayment",
         header: "Total price",
     },
     {
         accessorKey: "isPaid",
         header: "Paid",
+    },
+    {
+        accessorKey: "createdAt",
+        header: "Created at",
+        accessorFn: (order) => format(new Date(order.createdAt), "yyyy-MM-dd"),
     },
 ];
