@@ -1,4 +1,6 @@
 import { CREATE_ORDER } from "@/api/mutations/createOrder";
+import { GET_CITIES } from "@/api/queries/getCities";
+import { GET_CITIES_STREETS } from "@/api/queries/getCitiesStreets";
 import { GET_SETTLEMENTS } from "@/api/queries/getSettlements";
 import { GET_STREETS } from "@/api/queries/getStreets";
 import { GET_WAREHOUSES } from "@/api/queries/getWarehouses";
@@ -52,8 +54,8 @@ export const useGetWarehouses = () => {
         useLazyQuery(GET_WAREHOUSES);
 
     const getWarehouses = useCallback(
-        async (warehousesInput: IGetWarehousesInput) => {
-            await getWarehousesQuery({
+        (warehousesInput: IGetWarehousesInput) => {
+            getWarehousesQuery({
                 variables: {
                     ...warehousesInput,
                 },
@@ -81,4 +83,40 @@ export const useGetStreets = () => {
     );
 
     return { getStreets, data, loading, error };
+};
+
+export const useGetCities = () => {
+    const [getCitiesQuery, { data, loading }] = useLazyQuery(GET_CITIES);
+
+    const getCities = useCallback(
+        (findString: string | undefined = "") => {
+            getCitiesQuery({
+                variables: {
+                    findString,
+                },
+            });
+        },
+        [getCitiesQuery],
+    );
+
+    return { getCities, data, loading };
+};
+
+export const useGetCitiesStreets = () => {
+    const [getStreetsQuery, { data, loading }] =
+        useLazyQuery(GET_CITIES_STREETS);
+
+    const getStreets = useCallback(
+        (cityRef: string, findString: string | undefined = "") => {
+            getStreetsQuery({
+                variables: {
+                    findString,
+                    cityRef,
+                },
+            });
+        },
+        [getStreetsQuery],
+    );
+
+    return { getStreets, data, loading };
 };

@@ -1,4 +1,9 @@
-import { IGetSettlementsResponse } from "@/types/Order.types";
+import {
+    City,
+    IGetSettlementsResponse,
+    Street,
+    Warehouse,
+} from "@/types/Order.types";
 import { IProductImage } from "@/types/Product.types";
 import { IUserDataType } from "@/types/User.types";
 import { type ClassValue, clsx } from "clsx";
@@ -20,6 +25,49 @@ export const parseSettlements = async (novapostResponse: string) => {
         return cityAddresses.map((cityAddress) => ({
             label: cityAddress.Present,
             value: cityAddress.Ref,
+        }));
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+};
+
+export const parseCities = async (novaPostCitiesResponse: string) => {
+    try {
+        const novaPostData = (await JSON.parse(novaPostCitiesResponse)) as any;
+        const cities = novaPostData.data as City[];
+        return cities.map((city) => ({
+            label: city.Description,
+            value: city.Ref,
+        }));
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+};
+
+export const parseStreets = async (novaPostStreetsResponse: string) => {
+    try {
+        const novaPostData = (await JSON.parse(novaPostStreetsResponse)) as any;
+        const streets = novaPostData.data as Street[];
+        return streets.map((street) => ({
+            label: street.Description,
+            value: street.Ref,
+        }));
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+};
+
+export const parseWarehouses = async (novaPostWarehousesResponse: string) => {
+    try {
+        const novaPostData = (await JSON.parse(
+            novaPostWarehousesResponse,
+        )) as Warehouse[];
+        return novaPostData.map((warehouse) => ({
+            label: warehouse.Description,
+            value: warehouse.Ref,
         }));
     } catch (error) {
         console.log(error);

@@ -28,8 +28,9 @@ export type SearchDropdownItem = {
 type SearchDropdownProps = {
     values: SearchDropdownItem[];
     label?: string;
-    onSubmitAction: (newValue: string) => void;
+    onSubmitAction: (newValue: SearchDropdownItem) => void;
     disabled?: boolean;
+    onInputChange?: any;
 };
 
 export default function ({
@@ -37,6 +38,7 @@ export default function ({
     label = "Пошук...",
     onSubmitAction,
     disabled = false,
+    onInputChange,
 }: SearchDropdownProps) {
     const [open, setOpen] = React.useState(false);
     const [currentValue, setValue] = React.useState("");
@@ -62,16 +64,20 @@ export default function ({
             <PopoverContent className="w-[250px] p-0">
                 <Command>
                     <CommandList>
-                        <CommandInput placeholder={label} className="h-9" />
+                        <CommandInput
+                            onValueChange={onInputChange}
+                            placeholder={label}
+                            className="h-9"
+                        />
                         <CommandEmpty>Даних не знайдено</CommandEmpty>
-                        <CommandGroup>
+                        <CommandGroup className="max-h-[300px] overflow-y-scroll">
                             {values.map((value) => (
                                 <CommandItem
                                     key={value.value}
                                     value={value.label}
                                     onSelect={(newValue) => {
                                         setValue(newValue);
-                                        onSubmitAction(newValue);
+                                        onSubmitAction(value);
                                         setOpen(false);
                                     }}
                                     disabled={disabled}

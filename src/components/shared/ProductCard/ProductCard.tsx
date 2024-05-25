@@ -10,6 +10,8 @@ import { converToBase64 } from "@/lib/utils";
 
 import { useCart } from "@/hooks/use-cart";
 
+import prodImg from "@public/test_prod.png";
+
 interface ProductCardPropsType extends IProductCard {
     overrideCardContainerStyle?: string;
 }
@@ -27,7 +29,7 @@ export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
         >
             <Link href={`/product/${id}`}>
                 <Image
-                    src={converToBase64(images[0])}
+                    src={images[0] ? converToBase64(images[0]) : prodImg}
                     width={250}
                     height={250}
                     alt="product"
