@@ -2,7 +2,7 @@ import { IProduct } from "@/types/Product.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface CartProduct extends IProduct {
+export interface CartProduct extends IProduct {
     quantity: number;
 }
 

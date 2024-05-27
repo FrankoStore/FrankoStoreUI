@@ -2,11 +2,12 @@
 
 import PaymentButton from "./payment-button";
 import { useCreateorder } from "@/services/orderService";
-import React from "react";
+import { useGetProductsWithOptions } from "@/services/productService";
+import React, { useEffect } from "react";
 
 import { useOrder } from "@/hooks/use-active-order";
 import { useActiveUser } from "@/hooks/use-active-user";
-import { useCart } from "@/hooks/use-cart";
+import { CartProduct, useCart } from "@/hooks/use-cart";
 
 import NovaPostForm from "./_components/nova-post-form";
 import { Container } from "@/components/shared";
@@ -24,7 +25,12 @@ const PlaceOrderPage = () => {
         isSelfDelivery,
     } = useOrder();
     const { user } = useActiveUser();
-    const { createOrder, loading, data } = useCreateorder();
+    const { createOrder, data } = useCreateorder();
+    const { data: orderProductsData } = useGetProductsWithOptions({
+        ids: orderProducts.map((product) => product.productId),
+    });
+
+    if (orderProducts.length !== 0 && !orderProductsData) return null;
 
     const submitOrder = () => {
         createOrder({
@@ -69,14 +75,27 @@ const PlaceOrderPage = () => {
                             </p>
                         </div>
                         <div className="mt-[28px]">
-                            {products.map((product) => (
+                            {(orderProducts.length === 0
+                                ? products
+                                : orderProductsData
+                            ).map((product) => (
                                 <div
                                     key={product.id}
                                     className="border-b-[1px] border-b-black flex justify-between pb-2 mt-[20px]"
                                 >
                                     <div className="flex gap-1 text-[17px]">
                                         <p>{product.name}</p>
-                                        <p>×{product.quantity}</p>
+                                        <p>
+                                            ×
+                                            {orderProducts.length === 0
+                                                ? (product as CartProduct)
+                                                      .quantity
+                                                : orderProducts.find(
+                                                      (orderProduct) =>
+                                                          product.id ===
+                                                          orderProduct.productId,
+                                                  )?.quantity}
+                                        </p>
                                     </div>
                                     <p className="text-[17px]">
                                         {product.retailPrice} грн
@@ -89,11 +108,21 @@ const PlaceOrderPage = () => {
                                 Проміжний підсумок
                             </p>
                             <p className="text-[14px] lg:text-[17px]">
-                                {products.reduce(
+                                {(orderProducts.length === 0
+                                    ? products
+                                    : orderProductsData
+                                ).reduce(
                                     (acc, order) =>
                                         acc +
-                                        (order.retailPrice ?? 0) *
-                                            order.quantity,
+                                        order.retailPrice *
+                                            (orderProducts.length === 0
+                                                ? (order as CartProduct)
+                                                      .quantity
+                                                : orderProducts.find(
+                                                      (orderProduct) =>
+                                                          order.id ===
+                                                          orderProduct.productId,
+                                                  )?.quantity ?? 0),
                                     0,
                                 )}
                                 грн
@@ -103,7 +132,9 @@ const PlaceOrderPage = () => {
                 </div>
             </div>
             <div className="flex pt-[120px] lg:pt-[150px]">
-                <p className="font-medium text-[28px] mr-[40px] lg:mr-[90px]">Доставка</p>
+                <p className="font-medium text-[28px] mr-[40px] lg:mr-[90px]">
+                    Доставка
+                </p>
                 <div className="pt-3">
                     <RadioGroup className="flex gap-[50px] lg:gap-[30px] items-center">
                         <div className="flex items-center gap-2 w-auto lg:w-[350px]">
@@ -151,13 +182,22 @@ const PlaceOrderPage = () => {
             <div className="pt-[140px]">
                 <h2 className="font-medium text-[28px]">
                     До оплати:&nbsp;
-                    {
-                        products.reduce(
-                            (acc, order) =>
-                                acc + (order.retailPrice ?? 0) * order.quantity,
-                            0,
-                        ) /** + доставка */
-                    }
+                    {(orderProducts.length === 0
+                        ? products
+                        : orderProductsData
+                    ).reduce(
+                        (acc, order) =>
+                            acc +
+                            order.retailPrice *
+                                (orderProducts.length === 0
+                                    ? (order as CartProduct).quantity
+                                    : orderProducts.find(
+                                          (orderProduct) =>
+                                              order.id ===
+                                              orderProduct.productId,
+                                      )?.quantity ?? 0),
+                        0,
+                    )}
                     &nbsp;грн
                 </h2>
                 <div className="flex flex-col gap-[23px] mt-[60px]">

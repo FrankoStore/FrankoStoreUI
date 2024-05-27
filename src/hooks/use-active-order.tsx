@@ -12,6 +12,7 @@ export interface ActiveOrder {
     updateQuantity: (id: number, quantity: number) => void;
     toggleSelfDelivery: (value: boolean) => void;
     updateDeliveryAddress: (address: string) => void;
+    resetOrder: () => void;
 }
 
 export const useOrder = create<ActiveOrder>()(
@@ -38,6 +39,7 @@ export const useOrder = create<ActiveOrder>()(
                 set({ isSelfDelivery: value }),
             updateDeliveryAddress: (address: string) =>
                 set({ deliveryAddress: address }),
+            resetOrder: () => set({ products: [] }),
         }),
         { name: "order" },
     ),

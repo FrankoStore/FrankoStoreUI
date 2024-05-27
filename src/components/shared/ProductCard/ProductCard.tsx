@@ -1,14 +1,9 @@
-"use client";
-
-import { useGetProductById } from "@/services/productService";
 import { IProductCard } from "@/types/Product.types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 import { converToBase64 } from "@/lib/utils";
-
-import { useCart } from "@/hooks/use-cart";
 
 import prodImg from "@public/test_prod.png";
 
@@ -18,15 +13,9 @@ interface ProductCardPropsType extends IProductCard {
 
 export const ProductCard: React.FC<ProductCardPropsType> = (props) => {
     const { id, name, retailPrice, images, overrideCardContainerStyle } = props;
-    const { data: product } = useGetProductById(id);
-
-    const { addProduct } = useCart();
 
     return (
-        <div
-            className={overrideCardContainerStyle}
-            onClick={() => addProduct(product)}
-        >
+        <div className={overrideCardContainerStyle}>
             <Link href={`/product/${id}`}>
                 <Image
                     src={images[0] ? converToBase64(images[0]) : prodImg}

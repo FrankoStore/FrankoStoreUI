@@ -60,7 +60,13 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
         toast({ title: "Товар успішно додано в корзину" });
     };
 
+    const handleBuyNowClick = () => {
+        addProductToOrder({ productId: +id, quantity });
+        router.push(URLS.PLACE_ORDER);
+    };
+
     const { name, description, retailPrice, images } = data[0];
+
     return (
         <Container>
             <div className="flex w-[85%] mx-auto gap-[60px]">
@@ -99,12 +105,7 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
                         />
                     </div>
                     <div className="flex-1 flex items-end gap-[23px] mt-[10px]">
-                        <Button
-                            onClick={() => {
-                                addProductToOrder({ productId: +id, quantity });
-                                router.push(URLS.PLACE_ORDER);
-                            }}
-                        >
+                        <Button onClick={handleBuyNowClick}>
                             Купити зараз
                         </Button>
                         <Button

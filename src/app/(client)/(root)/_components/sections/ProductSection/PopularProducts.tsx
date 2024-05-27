@@ -10,6 +10,7 @@ const PopularProducts = () => {
     const { data: products, isLoading } = useGetProductsWithOptions({
         take: 3,
     });
+
     return isLoading ? (
         <div className="grid card-list-grid-columns justify-between">
             {Array.from({ length: 3 }).map((_: any, idx: number) => (
