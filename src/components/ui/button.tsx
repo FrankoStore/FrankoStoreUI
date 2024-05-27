@@ -19,7 +19,7 @@ const buttonVariants = cva(
             },
             size: {
                 primary: "w-[160px] lg:w-[307px] h-[43px] text-[14px] lg:text-[18px]",
-                link: "text-[17px]",
+                link: "text-[14px] lg:text-[17px]",
             },
         },
         compoundVariants: [

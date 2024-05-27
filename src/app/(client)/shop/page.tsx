@@ -90,7 +90,7 @@ const Shop = () => {
 
     return (
         <Container className="mt-[65px] flex">
-            <div className="w-[350px] flex flex-col gap-[30px] items-start">
+            <div className="w-[200px] lg:w-[350px] flex flex-col gap-[30px] items-start">
                 {categories?.map((category) => {
                     return (
                         <LinkButton
@@ -99,6 +99,7 @@ const Shop = () => {
                             }
                             active={category.name === selectedCategory}
                             key={category.id}
+                            className="text-[14px] lg:text-[17px]"
                         >
                             {category.name}
                         </LinkButton>
@@ -116,7 +117,7 @@ const Shop = () => {
                                 setSelectedFilter(newVal)
                             }
                         >
-                            <SelectTrigger className="w-[378px] h-[45px]">
+                            <SelectTrigger className="w-[250px] px-1 lg:px-3 lg:w-[378px] h-[45px]">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>

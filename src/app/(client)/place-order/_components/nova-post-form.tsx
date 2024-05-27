@@ -11,7 +11,7 @@ const NovaPostForm = ({ isDisabled }: NovaPostFormProps) => {
     return (
         <div
             className={cn(
-                "flex flex-col gap-[30px] items-start mt-[30px]",
+                "flex flex-col gap-[30px] items-start mt-[30px] w-full",
                 isDisabled ? "opacity-70" : null,
             )}
         >

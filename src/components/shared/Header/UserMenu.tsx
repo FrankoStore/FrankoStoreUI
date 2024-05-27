@@ -23,13 +23,13 @@ export const UserMenu = ({ openLogin }: UserMenuProps) => {
     const [searchValue, setSearchValue] = useUrlParams("search");
 
     return (
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 lg:gap-8">
             {pathname === "/shop" && (
                 <Input
                     value={searchValue ?? ""}
                     onChange={(e) => setSearchValue("search", e.target.value)}
                     placeholder="Я шукаю..."
-                    className="placeholder:opacity-70"
+                    className="w-[110px] xl:w-full placeholder:opacity-70"
                 />
             )}
             {user && checkIsAdmin(user) && (

@@ -42,7 +42,7 @@ const PlaceOrderPage = () => {
             <h2 className="uppercase text-darkblue text-[35px]">
                 Оформлення замовлення
             </h2>
-            <div className="pt-[80px] flex gap-[300px]">
+            <div className="pt-[80px] flex gap-[140px] lg:gap-[300px]">
                 <div className="max-w-[420px] w-full">
                     <p className="font-medium text-[28px]">Платіжні дані</p>
                     <div className="mt-[48px] flex flex-col gap-[30px]">
@@ -63,8 +63,10 @@ const PlaceOrderPage = () => {
                     <p className="font-medium text-[28px]">Ваше замовлення</p>
                     <div className="mt-[48px]">
                         <div className="flex justify-between font-light">
-                            <p className="text-[23px]">Товар</p>
-                            <p className="text-[23px]">Проміжний підсумок</p>
+                            <p className="text-[17px] lg:text-[23px]">Товар</p>
+                            <p className="text-[17px] lg:text-[23px]">
+                                Проміжний підсумок
+                            </p>
                         </div>
                         <div className="mt-[28px]">
                             {products.map((product) => (
@@ -82,9 +84,11 @@ const PlaceOrderPage = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-between mt-6">
-                            <p className="text-[23px]">Проміжний підсумок</p>
-                            <p className="text-[17px]">
+                        <div className="flex justify-between items-center mt-6">
+                            <p className="text-[17px] lg:text-[23px]">
+                                Проміжний підсумок
+                            </p>
+                            <p className="text-[14px] lg:text-[17px]">
                                 {products.reduce(
                                     (acc, order) =>
                                         acc +
@@ -98,11 +102,11 @@ const PlaceOrderPage = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex pt-[150px]">
-                <p className="font-medium text-[28px] mr-[90px]">Доставка</p>
+            <div className="flex pt-[120px] lg:pt-[150px]">
+                <p className="font-medium text-[28px] mr-[40px] lg:mr-[90px]">Доставка</p>
                 <div className="pt-3">
-                    <RadioGroup className="flex gap-[30px] items-center">
-                        <div className="flex items-center gap-2 w-[350px]">
+                    <RadioGroup className="flex gap-[50px] lg:gap-[30px] items-center">
+                        <div className="flex items-center gap-2 w-auto lg:w-[350px]">
                             <RadioGroupItem
                                 value="nova-poshta"
                                 id="nova-poshta"
@@ -115,7 +119,7 @@ const PlaceOrderPage = () => {
                                 Доставка Новою поштою
                             </Label>
                         </div>
-                        <div className="flex items-center gap-2 w-[350px]">
+                        <div className="flex items-center gap-2 w-auto lg:w-[350px]">
                             <RadioGroupItem
                                 value="self-delivery"
                                 id="self-delivery"
@@ -129,16 +133,16 @@ const PlaceOrderPage = () => {
                             </Label>
                         </div>
                     </RadioGroup>
-                    <div className="flex items-start justify-center gap-[30px]">
+                    <div className="flex items-start justify-center gap-[50px] lg:gap-[30px]">
                         <NovaPostForm isDisabled={false} />
                         <div className="flex flex-col gap-[30px] items-satrt mt-[30px]">
                             <Input
                                 placeholder="Поштовий індекс"
-                                className="w-[350px]"
+                                className="w-[220px] lg:w-[350px]"
                             />
                             <Input
                                 placeholder="Номер будинку/квартири"
-                                className="w-[350px]"
+                                className="w-[220px] lg:w-[350px]"
                             />
                         </div>
                     </div>
@@ -166,7 +170,7 @@ const PlaceOrderPage = () => {
                             />
                             <Label
                                 htmlFor="card-payment"
-                                className="text-[15px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer whitespace-nowrap"
+                                className="text-[15px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer"
                             >
                                 Оплата карткою, Apple або Google Pay Безпечна
                                 оплата кредитною/дебетовою карткою або
@@ -181,7 +185,7 @@ const PlaceOrderPage = () => {
                             />
                             <Label
                                 htmlFor="on-receive"
-                                className="text-[15px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer whitespace-nowrap"
+                                className="text-[15px] leading-none peer-disabled:opacity-70 font-normal cursor-pointer"
                             >
                                 Оплата при отриманні
                             </Label>

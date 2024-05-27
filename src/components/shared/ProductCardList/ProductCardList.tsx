@@ -28,7 +28,11 @@ export const ProductCardList: React.FC<ProductCardListPropsType> = (props) => {
             </div>
             {!!buttonText && (
                 <div className="flex justify-center mt-[60px] lg:mt-[84px]">
-                    <Button variant="outline" onClick={() => loadMore()}>
+                    <Button
+                        variant="outline"
+                        onClick={loadMore}
+                        className="w-[180px] lg:w-[307px]"
+                    >
                         {buttonText}
                     </Button>
                 </div>

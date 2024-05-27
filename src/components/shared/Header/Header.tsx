@@ -23,7 +23,7 @@ export const Header = () => {
                     <div className="flex gap-6 lg:gap-9 items-center">
                         <HeaderMenu />
                         <Link href={URLS.HOME}>
-                            <LogoIcon width={isLgScreen ? "212" : "180"} />
+                            <LogoIcon width={isLgScreen ? "212" : "160"} />
                         </Link>
                     </div>
 
