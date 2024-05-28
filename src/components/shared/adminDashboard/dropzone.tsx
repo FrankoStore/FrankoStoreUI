@@ -107,7 +107,7 @@ export const FileUpload: React.FC<PreviewsProps> = (props) => {
             key={file.name}
         >
             <Button
-                className="w-4 h-4 bg-slate-500 rounded-full flex items-center justify-center absolute top-[-6px] right-[-6px]"
+                className="w-4 lg:w-4 h-4 bg-slate-500 rounded-full flex items-center justify-center absolute top-[-6px] right-[-6px]"
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                     e.stopPropagation();
 

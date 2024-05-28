@@ -166,16 +166,6 @@ const PlaceOrderPage = () => {
                     </RadioGroup>
                     <div className="flex items-start justify-center gap-[50px] lg:gap-[30px]">
                         <NovaPostForm isDisabled={false} />
-                        <div className="flex flex-col gap-[30px] items-satrt mt-[30px]">
-                            <Input
-                                placeholder="Поштовий індекс"
-                                className="w-[220px] lg:w-[350px]"
-                            />
-                            <Input
-                                placeholder="Номер будинку/квартири"
-                                className="w-[220px] lg:w-[350px]"
-                            />
-                        </div>
                     </div>
                 </div>
             </div>

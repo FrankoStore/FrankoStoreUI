@@ -1,5 +1,8 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import React from "react";
+
+import loyaltySystemImg from "@public/loyalty-system.webp";
 
 interface BenefitsSectionPropsType {
     overrideContainerStyle?: string;
@@ -16,9 +19,15 @@ export const BenefitsSection: React.FC<BenefitsSectionPropsType> = (props) => {
                     Отримай вигоду!
                 </h3>
             </div>
-            <div className="mt-[72px] lg:mt-[89px] flex">
-                <div className="w-1/2 font-[200]">
-                    <p>{"(система лояльності)"}</p>
+            <div className="mt-[72px] lg:mt-[89px] flex items-center">
+                <div className="w-1/2 grid place-items-center">
+                    <Image
+                        src={loyaltySystemImg}
+                        alt="Franko store notebook"
+                        width={400}
+                        height={380}
+                        className="w-[340px] lg:w-[380px] h-[280px] lg:h-[360px] rounded-sm shadow-[inset_0px_0px_10px_10px_rgba(0,0,0,0.7)]"
+                    />
                 </div>
                 <div className="w-1/2 font-[200] tracking-wide">
                     <p>

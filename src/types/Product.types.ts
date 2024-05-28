@@ -26,6 +26,7 @@ export interface IProductCard {
 export interface IProduct extends IProductCard {
     amount: number;
     height: number;
+    width: number;
     categories: ICategory[];
     description?: string;
     size: keyof typeof SIZE;

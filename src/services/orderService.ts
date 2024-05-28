@@ -1,3 +1,4 @@
+import { CAPTURE_PAYMENT } from "@/api/mutations/capturePayment";
 import { CREATE_ORDER } from "@/api/mutations/createOrder";
 import { GET_CITIES } from "@/api/queries/getCities";
 import { GET_CITIES_STREETS } from "@/api/queries/getCitiesStreets";
@@ -141,4 +142,15 @@ export const useGetCitiesStreets = () => {
     );
 
     return { getStreets, data, loading };
+};
+
+export const useCapturePayment = () => {
+    const [capturePaymentMutation, { loading }] = useMutation(CAPTURE_PAYMENT);
+
+    const capturePayment = useCallback(
+        (orderId: number) => capturePaymentMutation({ variables: { orderId } }),
+        [capturePaymentMutation],
+    );
+
+    return { capturePayment, loading };
 };

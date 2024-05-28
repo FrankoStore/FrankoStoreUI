@@ -1,6 +1,7 @@
 import CategoriesMenu from "./CategoriesMenu";
+import HeaderMenuLinks from "./HeaderMenuLinks";
 import Link from "next/link";
-import React, { cloneElement } from "react";
+import React from "react";
 
 import { URLS } from "@/lib/constants";
 
@@ -8,37 +9,11 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
-    DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import {
-    BurgerIcon,
-    DiscountIcon,
-    FacebookIcon,
-    InstagramIcon,
-    StoreIcon,
-    UserConfigIcon,
-} from "@/assets/icons";
-
-const menuItems = [
-    {
-        path: URLS.DISCOUNT,
-        title: "акції",
-        icon: <DiscountIcon />,
-    },
-    {
-        path: URLS.ABOUT,
-        title: "про нас",
-        icon: <StoreIcon />,
-    },
-    {
-        path: URLS.CABINET,
-        title: "особистий кабінет",
-        icon: <UserConfigIcon />,
-    },
-];
+import { BurgerIcon, FacebookIcon, InstagramIcon } from "@/assets/icons";
 
 export const HeaderMenu = () => {
     return (
@@ -55,26 +30,7 @@ export const HeaderMenu = () => {
                 <DropdownMenuGroup className="mt-5">
                     <CategoriesMenu />
                     <DropdownMenuSeparator />
-                    {menuItems.map((item, index) => (
-                        <React.Fragment key={item.title}>
-                            <DropdownMenuItem className="uppercase text-[17px] font-semibold">
-                                <Link
-                                    className="w-full h-full inline-flex items-center gap-2"
-                                    href={item.path}
-                                >
-                                    {cloneElement(item.icon, {
-                                        width: "16",
-                                        height: "16",
-                                        fill: "currentColor",
-                                    })}
-                                    {item.title}
-                                </Link>
-                            </DropdownMenuItem>
-                            {index !== menuItems.length - 1 && (
-                                <DropdownMenuSeparator />
-                            )}
-                        </React.Fragment>
-                    ))}
+                    <HeaderMenuLinks />
                 </DropdownMenuGroup>
                 <div className="mt-[40px] ml-1 mb-[20px]">
                     <p className="uppercase text-[20px] font-semibold">
@@ -90,8 +46,20 @@ export const HeaderMenu = () => {
                         frankostore@lnu.edu.ua
                     </a>
                     <div className="flex gap-[19px] mt-6">
-                        <InstagramIcon fill="#000" />
-                        <FacebookIcon fill="#000" />
+                        <Link
+                            href={URLS.INSTAGRAM}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <InstagramIcon fill="#000" />
+                        </Link>
+                        <Link
+                            href={URLS.FACEBOOK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <FacebookIcon fill="#000" />
+                        </Link>
                     </div>
                 </div>
             </DropdownMenuContent>

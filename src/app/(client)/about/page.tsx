@@ -40,13 +40,13 @@ const AboutPage = () => {
     return (
         <div className="pt-[87px]">
             <Container className="flex flex-col items-center">
-                <h1 className="text-[55px] text-center max-w-[1132px] text-darkblue">
+                <h1 className="text-[42px] lg:text-[55px] text-center max-w-[1132px] text-darkblue">
                     Вас вітає FRANKOstore – офіційна крамничка з брендованою
                     продукцією ЛНУ ім. І. Франка!
                 </h1>
             </Container>
             <Container className="flex justify-between items-center pt-[87px]">
-                <div className="max-w-[644px] text-[17px]">
+                <div className="max-w-[400px] lg:max-w-[500px] xl:max-w-[644px] text-[12px] lg:text-[17px]">
                     <p>
                         Ідея крамнички зародилася у нашому університеті вже
                         досить давно.
@@ -72,6 +72,7 @@ const AboutPage = () => {
                         className="w-full object-cover"
                         src={aboutImg}
                         alt="About"
+                        priority={false}
                     />
                 </div>
             </Container>
@@ -81,7 +82,7 @@ const AboutPage = () => {
                     overrideContainerStyle="pt-[130px]"
                 />
             </Container>
-            <Container className="pt-[150px] flex justify-between items-center pr-12">
+            <Container className="pt-[150px] flex justify-between items-center pr-12 gap-14 xl:gap-0">
                 <div className="max-w-[645px] w-full aspect-[645/351] h-auto">
                     <Image
                         className="w-full object-cover h-[400px]"
@@ -89,24 +90,25 @@ const AboutPage = () => {
                         alt="LNU"
                         width={608}
                         height={912}
+                        priority={false}
                     />
                 </div>
-                <div className="max-w-[550px] w-full">
+                <div className="xl:max-w-[550px] w-full">
                     <div>
-                        <p className="uppercase text-[35px] text-darkblue">
+                        <p className="uppercase text-[28px] lg:text-[35px] text-darkblue">
                             Наш асортимент:
                         </p>
-                        <p className="text-[14px] mt-4 max-w-[400px]">
+                        <p className="text-[12px] lg:text-[14px] mt-4 max-w-[400px]">
                             У крамничці ви можете знайти для себе товари як з
                             традиційною атрибутикою ЛНУ ім. І.Франка, так і
                             унікальні дизайнерські колекції.
                         </p>
                     </div>
                     <div className="mt-10">
-                        <p className="uppercase text-[35px] text-darkblue">
+                        <p className="uppercase text-[28px] lg:text-[35px] text-darkblue">
                             У нас ви можете придбати:
                         </p>
-                        <ul className="text-[14px] mt-4 list-disc ml-[16px]">
+                        <ul className="text-[12px] lg:text-[14px] mt-4 list-disc ml-[16px]">
                             <li>стильний та зручний одяг,</li>
                             <li>оригінальне канцелярське приладдя,</li>
                             <li>унікальний посуд,</li>

@@ -1,5 +1,6 @@
 "use client";
 
+import { CellAction } from "./cell-action";
 import { IOrder } from "@/types/Order.types";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -29,6 +30,16 @@ export const columns: ColumnDef<IOrder>[] = [
     {
         accessorKey: "isPaid",
         header: "Paid",
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => {
+            return row.original.isPaid ? (
+                <CellAction data={row.original} />
+            ) : (
+                <></>
+            );
+        },
     },
     {
         accessorKey: "createdAt",

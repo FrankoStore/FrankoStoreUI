@@ -2,7 +2,8 @@
 
 import { ProductSection } from "./ProductSection";
 import { useGetProductsWithOptions } from "@/services/productService";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useCallback } from "react";
 
 import ProductCardSkeleton from "@/components/shared/ProductCard/ProductCardSkeleton";
 
@@ -10,6 +11,11 @@ const PopularProducts = () => {
     const { data: products, isLoading } = useGetProductsWithOptions({
         take: 3,
     });
+    const router = useRouter();
+
+    const showAllProducts = useCallback(() => {
+        router.push("/shop");
+    }, []);
 
     return isLoading ? (
         <div className="grid card-list-grid-columns justify-between">
@@ -23,6 +29,7 @@ const PopularProducts = () => {
             title="популярне"
             buttonText="Переглянути всі товари"
             overrideContainerStyle="mt-[160px]"
+            buttonAction={showAllProducts}
         />
     );
 };

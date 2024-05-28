@@ -21,25 +21,6 @@ interface ProductPagePropsType {
     };
 }
 
-const characteristcs = [
-    {
-        key: "Розмір сумки",
-        value: "42 см x 35см",
-    },
-    {
-        key: "Довжина ручок",
-        value: "12 см",
-    },
-    {
-        key: "Склад тканини",
-        value: "100% бавовна",
-    },
-    {
-        key: "Колір",
-        value: "синій",
-    },
-];
-
 const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
     const { data, isLoading } = useGetProductsWithOptions({ ids: [+id] });
     const { addProduct: addProductToOrder } = useOrder();
@@ -65,7 +46,7 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
         router.push(URLS.PLACE_ORDER);
     };
 
-    const { name, description, retailPrice, images } = data[0];
+    const { name, description, retailPrice, images, height, width } = data[0];
 
     return (
         <Container>
@@ -80,21 +61,11 @@ const Product: React.FC<ProductPagePropsType> = ({ params: { id } }) => {
                         className="text-[15px] mt-[20px]"
                         dangerouslySetInnerHTML={{ __html: description ?? "" }}
                     />
-                    <p className="text-[15px] mt-[7px]">
-                        <b className="font-semibold">Від 10</b> одиниць товару
-                        <b className="font-semibold">5% знижки!</b>
-                    </p>
                     <div className="mt-[20px] flex flex-col gap-2">
-                        {characteristcs.map((item, index) => {
-                            const key = `${item.key}-${index}`;
-
-                            return (
-                                <p key={key}>
-                                    <b className="font-semibold">{item.key}:</b>{" "}
-                                    {item.value}
-                                </p>
-                            );
-                        })}
+                        <p>
+                            <b className="font-semibold">Розмір:&nbsp;</b>
+                            {width}см x {height}см
+                        </p>
                     </div>
                     <div className="mt-6">
                         <p className="font-semibold text-[17px]">Кількість:</p>

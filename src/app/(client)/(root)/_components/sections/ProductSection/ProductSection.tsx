@@ -11,10 +11,12 @@ interface ProductSectionPropsType {
     buttonText?: string;
     overrideTitleStyle?: string;
     overrideContainerStyle?: string;
+    buttonAction?: () => void;
 }
 
 export const ProductSection: React.FC<ProductSectionPropsType> = (props) => {
-    const { title, items, buttonText, overrideContainerStyle } = props;
+    const { title, items, buttonText, overrideContainerStyle, buttonAction } =
+        props;
 
     return (
         <div className={overrideContainerStyle}>
@@ -26,7 +28,7 @@ export const ProductSection: React.FC<ProductSectionPropsType> = (props) => {
             <ProductCardList
                 items={items}
                 buttonText={buttonText}
-                loadMore={() => {}}
+                loadMore={buttonAction}
                 overrideContainerStyle="mt-[56px] lg:mt-[74px]"
             />
         </div>

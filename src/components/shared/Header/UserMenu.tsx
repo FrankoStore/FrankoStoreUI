@@ -42,7 +42,7 @@ export const UserMenu = ({ openLogin }: UserMenuProps) => {
                     <UserIcon />
                 </Link>
             ) : (
-                <Button variant="icon" size="primary" onClick={openLogin}>
+                <Button className="w-auto lg:w-auto" variant="icon" size="primary" onClick={openLogin}>
                     <UserIcon />
                 </Button>
             )}

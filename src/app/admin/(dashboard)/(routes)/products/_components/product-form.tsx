@@ -99,28 +99,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     const { toast } = useToast();
 
     const onSubmit = async (data: ProductFormValues) => {
-        const requestData = {
-            categories: data.categories,
-            description: data.description,
-            height: data.height,
-            length: data.length,
-            width: data.width,
-            size: data.size,
-            name: data.name,
-            retailPrice: data.retailPrice,
-            images: data.images.map((image) => ({
-                ...image,
-                path: `data:image/${image.fileExtension.substring(1)};base64,${image.file}`,
-            })),
-        };
         try {
             setLoading(true);
             // make request
 
             view === "add"
-                ? await createProduct(requestData)
-                : await updateProduct(id ?? 0, { ...requestData, amount: 10 });
-
+                ? await createProduct(data)
+                : await updateProduct(id ?? 0, data);
             toast({ title: toastMessage });
             router.push(`/admin/products`);
         } catch (error: any) {

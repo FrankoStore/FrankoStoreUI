@@ -11,6 +11,8 @@ export enum URLS {
     CHECKOUT = "/checkout",
     UNIVERCITY = "https://lnu.edu.ua/",
     ADMIN = "/admin",
+    INSTAGRAM = "https://www.instagram.com/franko_store/",
+    FACEBOOK = "https://www.facebook.com/FrankoStore.lnu/",
 }
 
 // @ts-ignore

@@ -8,6 +8,7 @@ export const GET_PRODUCTS = gql`
             description
             height
             length
+            width
             name
             size
             retailPrice

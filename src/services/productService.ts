@@ -27,7 +27,7 @@ interface CreateProductData {
 }
 
 interface UpdateProductData extends CreateProductData {
-    amount: number;
+    amount?: number;
 }
 
 export const useGetProductsQuery = () => {
